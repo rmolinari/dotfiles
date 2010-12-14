@@ -64,9 +64,11 @@ export P4ROOT CODELINE SRCROOT BUILDDIR
 alias cdw='cd ${BUILDDIR}'
 alias cdt='cd ${SRCROOT}/core/sfdc-test/func/java/src'
 
-alias cd166p='cd ${P4ROOT}/app/166/patch/core/build'
-alias cd166prod='cd ${P4ROOT}/app/166/prod/core/build'
 alias cd168p='cd ${P4ROOT}/app/168/patch/core/build'
+alias cd168prod='cd ${P4ROOT}/app/168/prod/core/build'
+
+alias cd170p='cd ${P4ROOT}/app/170/patch/core/build'
+alias cd170f='cd ${P4ROOT}/app/170/freeze/core/build'
 
 ######################################################################
 # Tools
