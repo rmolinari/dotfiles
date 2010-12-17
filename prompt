@@ -1,0 +1,20 @@
+#
+# Set up my prompt
+
+# When we are in a git-controlled directory the prompt includes the current
+# git branch and status.  In directories not in a git project there is no
+# such representation.
+
+function parse_git_dirty {
+  [[ $(git status 2> /dev/null | tail -n1) != "nothing to commit (working directory clean)" ]] && echo "*"
+}
+
+#function parse_git_branch {
+#  git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/*\(.*\)/[\1$(parse_git_dirty)]/"
+#}
+     	    
+PS1='\[\e[0;32m\]\
+[\u:\w]$(__git_ps1 "(\[\e[0;35m\]%s\[\e[0m\]\[\e[0;33m\]$(parse_git_dirty)\[\e[32m\])")\n\
+\[\e[0;32m\]\
+$(date +%H:%M:%S) $ \
+\[\e[0m\]'
