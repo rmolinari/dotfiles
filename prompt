@@ -10,7 +10,7 @@ export GIT_PS1_SHOWSTASHSTATE=true
 export GIT_PS1_SHOWUNTRACKEDFILES=true
      	    
 PS1='\[\e[0;32m\]\
-[\u:\w]$(__git_ps1 "(\[\e[0;35m\]%s\[\e[0m\]\e[32m\])")\n\
+[\u:\w]\[\e[0;35m\]$(__git_ps1 " [%s]")\[\e[0m\]\n\
 \[\e[0;32m\]\
 $(date +%H:%M:%S) $ \
 \[\e[0m\]'
