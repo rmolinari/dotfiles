@@ -8,10 +8,6 @@ export P4USER=rmolinari
 export P4PORT=p4proxy.soma.salesforce.com:1999
 
 ######################################################################
-# My own aliases
-. aliases
-
-######################################################################
 # Oracle
 export ORACLE_HOME=/development/dev/tools/Linux/oracle/10.1.0.2
 PATH=$PATH:$ORACLE_HOME/client/bin
@@ -31,7 +27,13 @@ export INFOPATH=${TEXLIVE}/doc/info:$INFOPATH
 
 export PATH=/home/rmolinari/bin:$PATH
 
+BASH_CONFIG=~/.bash.d
+
+######################################################################
+# My own aliases
+. $BASH_CONFIG/aliases
+
 ######################################################################
 # Shell appearance
 
-. prompt
+. $BASH_CONFIG/prompt
