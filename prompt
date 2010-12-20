@@ -24,14 +24,14 @@ function setprompt
     }
 
     ##
-    # Define local variables for each color and bold: RED, RED_BOLD, GREEN, GREEN_BOLD, etc
+    # Define local variables for each color and bold: RED, B_RED, GREEN, B_GREEN, etc
     #
     for pair in BLACK_30 RED_31 GREEN_32 BROWN_33 BLUE_34 PURPLE_35 CYAN_36 GRAY_37
     do
         local col=${pair%_*}
-	local code=${pair#*_}
-	eval "local ${col}=\$(plain ${code})"
-	eval "local ${col}_BOLD=\$(bold ${code})"
+        local code=${pair#*_}
+        eval "local ${col}=\$(plain ${code})"
+        eval "local B_${col}=\$(bold ${code})"
     done
 
     local RESET_COL="\[\e[0m\]"
