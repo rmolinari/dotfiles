@@ -9,7 +9,7 @@ export P4PORT=p4proxy.soma.salesforce.com:1999
 
 ######################################################################
 # My own aliases
-. ~/bash_stuff/aliases
+. aliases
 
 ######################################################################
 # Oracle
@@ -34,4 +34,4 @@ export PATH=/home/rmolinari/bin:$PATH
 ######################################################################
 # Shell appearance
 
-. ~/bash_stuff/prompt
+. prompt
