@@ -35,9 +35,12 @@ function setprompt
     done
 
     local RESET_COL="\[\e[0m\]"
-     	    
-    PS1="${GREEN}[\u:\w]${PURPLE}\$(__git_ps1 ' [%s]')${GREEN}\n\$(date +%H:%M:%S) $ ${RESET_COL}"
     
+    local BASE=${GREEN}
+     	    
+    PS1="${BASE}[\u:\w]\$(__git_ps1 ' ${RED}[%s]${BASE}')\n\$(date +%H:%M:%S) $ ${RESET_COL}"
+    
+    unset -f color plain bold
 }
 
 setprompt
