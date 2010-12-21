@@ -5,8 +5,20 @@
 # git branch and status.  In directories not in a git project there is no
 # such representation.
 
+function __prompt_exit_val
+{
+    local val=$?
+    if [[ $val != 0 ]]
+    then
+        printf "${1:- (%s)}" "$val"
+    fi
+}
+
+
 function setprompt 
 {
+    ##
+    # Git decoration
     export GIT_PS1_SHOWDIRTYSTATE=true
     export GIT_PS1_SHOWSTASHSTATE=true
     export GIT_PS1_SHOWUNTRACKEDFILES=true
@@ -36,9 +48,12 @@ function setprompt
 
     local RESET_COL="\[\e[0m\]"
     
-    local BASE=${GREEN}
+    local BASE=${BLUE}
+    
+    local exit_val="\$(__prompt_exit_val '${BROWN} - ?%s${BASE}')"
+    local git_status="\$(__git_ps1 ' ${RED}[%s]${BASE}')"
      	    
-    PS1="${BASE}[\u:\w]\$(__git_ps1 ' ${RED}[%s]${BASE}')\n\$(date +%H:%M:%S) $ ${RESET_COL}"
+    PS1="${BASE}[\u:\w${exit_val}]${git_status}\n\$(date +%H:%M:%S) $ ${RESET_COL}"
     
     unset -f color plain bold
 }
