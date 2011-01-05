@@ -59,8 +59,8 @@ function setprompt
     
     local BASE=${BLUE}
     
-    local exit_val="\$(__prompt_exit_val '${BROWN} - ?%s${BASE}')"
-    local git_status="\$(__git_ps1 ' ${RED}[%s]${BASE}')"
+    local exit_val="\$(__prompt_exit_val '${RED} - ?%s${BASE}')"
+    local git_status="\$(__git_ps1 ' ${BROWN}[%s]${BASE}')"
      	    
     PS1="${BASE}[\u:\w${exit_val}]${git_status}\n\$(date +%H:%M:%S) $ ${RESET_COLOR}"
     
