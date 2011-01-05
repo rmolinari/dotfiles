@@ -26,7 +26,7 @@ function setprompt
     function color {
         echo "\[\e[${1};${2}m\]"
     }
-
+    
     function plain {
         color 0 $1
     }
@@ -34,26 +34,35 @@ function setprompt
     function bold {
         color 1 $1
     }
+    
+    function background {
+        echo "\[\e[${1}m\]"
+    }
 
     ##
     # Define local variables for each color and bold: RED, B_RED, GREEN, B_GREEN, etc
     #
-    for pair in BLACK_30 RED_31 GREEN_32 BROWN_33 BLUE_34 PURPLE_35 CYAN_36 GRAY_37
+    # Also define variables for background colors: BG_RED, BG_GREEN, etc
+    # NOTE: these apparently must be used *after* setting the foreground color.  So
+    #       write ${GREEN}${BG_GRAY} rather than ${BG_GRAY}${GREEN}.  I don't know why.
+    #
+    for pair in BLACK_0 RED_1 GREEN_2 BROWN_3 BLUE_4 PURPLE_5 CYAN_6 GRAY_7
     do
         local col=${pair%_*}
         local code=${pair#*_}
-        eval "local ${col}=\$(plain ${code})"
-        eval "local B_${col}=\$(bold ${code})"
+        eval "local ${col}=\$(plain 3${code})"
+        eval "local B_${col}=\$(bold 3${code})"
+        eval "local BG_${col}=\$(background 4${code})"
     done
 
-    local RESET_COL="\[\e[0m\]"
+    local RESET_COLOR="\[\e[0m\]"
     
     local BASE=${BLUE}
     
     local exit_val="\$(__prompt_exit_val '${BROWN} - ?%s${BASE}')"
     local git_status="\$(__git_ps1 ' ${RED}[%s]${BASE}')"
      	    
-    PS1="${BASE}[\u:\w${exit_val}]${git_status}\n\$(date +%H:%M:%S) $ ${RESET_COL}"
+    PS1="${BASE}[\u:\w${exit_val}]${git_status}\n\$(date +%H:%M:%S) $ ${RESET_COLOR}"
     
     unset -f color plain bold
 }
