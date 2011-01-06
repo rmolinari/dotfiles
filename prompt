@@ -22,18 +22,18 @@ function setprompt
     export GIT_PS1_SHOWDIRTYSTATE=true
     export GIT_PS1_SHOWSTASHSTATE=true
     export GIT_PS1_SHOWUNTRACKEDFILES=true
-    
+
     function __prompt_escape {
         echo "\[$1\]"
     }
-    
+
     # We use tput for portability.  See 'man tput' and 'man 5 terminfo' for
     # details on what is possible.
     function fg {
         # sgr0 clears attributes; setaf sets foreground color
         __prompt_escape $(tput sgr0; tput setaf $1)
     }
-    
+
     function bg {
         # setab sets the background color
         __prompt_escape $(tput setab $1)
@@ -62,9 +62,9 @@ function setprompt
 
     local exit_val="\$(__prompt_exit_val '${RED} %s${BASE}')"
     local git_status="\$(__git_ps1 ' ${BROWN}[%s]${BASE}')"
-     	    
+
     PS1="${BASE}[\u:\w${exit_val}]${git_status}\n\$(date +%H:%M:%S) ${RESET_ALL}"
-    
+
     unset -f __prompt_escape fg bg
 }
 
