@@ -25,7 +25,7 @@ export PATH=${TEXLIVE}/bin/x86_64-linux:$PATH
 export MANPATH=${TEXLIVE}/doc/man:$MANPATH
 export INFOPATH=${TEXLIVE}/doc/info:$INFOPATH
 
-export PATH=/home/rmolinari/bin:$PATH
+export PATH=/home/rmolinari/bin:/home/rmolinari/.gem/ruby/1.9.1/bin:$PATH
 
 BASH_CONFIG=~/.bash.d
 
