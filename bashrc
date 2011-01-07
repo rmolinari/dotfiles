@@ -32,6 +32,9 @@ BASH_CONFIG=~/.bash.d
 ######################################################################
 ## Shell options
 
+shopt -s cdspell
+shopt -s dirspell
+shopt -s dotglob
 shopt -s globstar
 
 ######################################################################
