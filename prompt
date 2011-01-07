@@ -23,7 +23,7 @@ function setprompt
     export GIT_PS1_SHOWSTASHSTATE=true
     export GIT_PS1_SHOWUNTRACKEDFILES=true
 
-    function __prompt_escape {
+    function prompt_escape {
         echo "\[$1\]"
     }
 
@@ -31,16 +31,16 @@ function setprompt
     # details on what is possible.
     function fg {
         # sgr0 clears attributes; setaf sets foreground color
-        __prompt_escape $(tput sgr0; tput setaf $1)
+        prompt_escape $(tput sgr0; tput setaf $1)
     }
 
     function bg {
         # setab sets the background color
-        __prompt_escape $(tput setab $1)
+        prompt_escape $(tput setab $1)
     }
     
-    local BOLD=$(__prompt_escape $(tput bold))
-    local RESET_ALL=$(__prompt_escape $(tput sgr0))
+    local BOLD=$(prompt_escape $(tput bold))
+    local RESET_ALL=$(prompt_escape $(tput sgr0))
 
     ##
     # Define local variables for each color and bold/bright: RED, B_RED, GREEN, B_GREEN, etc
@@ -65,7 +65,7 @@ function setprompt
 
     PS1="${BASE}[${exit_val}\u:\w]${git_status}\n\$(date +%H:%M:%S) ${RESET_ALL}"
 
-    unset -f __prompt_escape fg bg
+    unset -f prompt_escape fg bg
 }
 
 setprompt
