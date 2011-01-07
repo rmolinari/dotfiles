@@ -51,11 +51,11 @@ function setprompt
     #
     for pair in BLACK_0 RED_1 GREEN_2 BROWN_3 BLUE_4 PURPLE_5 CYAN_6 GRAY_7
     do
-        local col=${pair%_*}
+        local color=${pair%_*}
         local code=${pair#*_}
-        eval "local ${col}=\$(fg ${code})"
-        eval "local B_${col}=\$(fg ${code})\${BOLD}"
-        eval "local BG_${col}=\$(bg ${code})"
+        eval "local ${color}=\$(fg ${code})"
+        eval "local B_${color}=\$(fg ${code})\${BOLD}"
+        eval "local BG_${color}=\$(bg ${code})"
     done
 
     local BASE=${BLUE}
