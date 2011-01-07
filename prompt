@@ -30,7 +30,7 @@ function setprompt
     # We use tput for portability.  See 'man tput' and 'man 5 terminfo' for
     # details on what is possible.
     function fg {
-        # sgr0 clears attributes; setaf sets foreground color
+        # clear all attributes and set foreground color
         prompt_escape $(tput sgr0; tput setaf $1)
     }
 
