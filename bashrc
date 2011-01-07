@@ -30,6 +30,11 @@ export PATH=/home/rmolinari/bin:/home/rmolinari/.gem/ruby/1.9.1/bin:$PATH
 BASH_CONFIG=~/.bash.d
 
 ######################################################################
+## Shell options
+
+shopt -s globstar
+
+######################################################################
 # My own aliases
 . $BASH_CONFIG/aliases
 
