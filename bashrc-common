@@ -34,3 +34,4 @@ function mysudo
 
 . $SCRIPT_DIR/prompt
 
+unset SCRIPT_DIR
