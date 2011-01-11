@@ -4,10 +4,10 @@
 ######################################################################
 ## Shell options
 
-shopt -s cdspell
-shopt -s dirspell
-shopt -s dotglob
-shopt -s globstar
+shopt -s cdspell  2>/dev/null
+shopt -s dirspell 2>/dev/null
+shopt -s dotglob  2>/dev/null
+shopt -s globstar 2>/dev/null
 
 ######################################################################
 # Aliases and simple functions
