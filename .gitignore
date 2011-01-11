@@ -1,0 +1,6 @@
+#
+#
+
+# Don't track these, because we don't want them to live on other
+# machines
+*-sfdc
