@@ -27,6 +27,8 @@ function setprompt
         echo "\[$1\]"
     }
 
+    # Get escape sequence for a foregreound color
+    #
     # We use tput for portability.  See 'man tput' and 'man 5 terminfo' for
     # details on what is possible.
     function fg {
@@ -34,8 +36,9 @@ function setprompt
         prompt_escape $(tput sgr0; tput setaf $1)
     }
 
+    # Get escape sequence for a background color
+    #
     function bg {
-        # setab sets the background color
         prompt_escape $(tput setab $1)
     }
     
