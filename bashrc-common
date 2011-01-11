@@ -2,6 +2,13 @@
 # Cross-machine .bashrc
 
 ######################################################################
+# Get directory containing this file
+# (This trick was found online.  It won't resolve symlinks.)
+pushd $(dirname ${BASH_SOURCE[0]}) > /dev/null
+SCRIPT_DIR=$PWD
+popd > /dev/null
+
+######################################################################
 ## Shell options
 
 shopt -s cdspell  2>/dev/null
@@ -25,5 +32,5 @@ function mysudo
 ######################################################################
 # Shell appearance
 
-. $BASH_CONFIG/prompt
+. $SCRIPT_DIR/prompt
 
