@@ -1,59 +1,37 @@
 ######################################################################
-# Cross-machine
+# Cross-machine .bashrc
+
+######################################################################
+# Get directory containing this file
+# (This trick was found online.  It won't resolve symlinks.)
+pushd $(dirname ${BASH_SOURCE[0]}) > /dev/null
+SCRIPT_DIR=$PWD
+popd > /dev/null
 
 ######################################################################
 ## Shell options
 
-shopt -s cdspell
-shopt -s dirspell
-shopt -s dotglob
-shopt -s globstar
+shopt -s cdspell  2>/dev/null
+shopt -s dirspell 2>/dev/null
+shopt -s dotglob  2>/dev/null
+shopt -s globstar 2>/dev/null
 
 ######################################################################
-# My own aliases
-. $BASH_CONFIG/aliases
+# Aliases and simple functions
+
+# Get rid of color
+unalias ls 2> /dev/null
+
+#
+# Silliness to pass path to sudo
+function mysudo
+{
+  sudo PATH=$PATH $*
+}
 
 ######################################################################
 # Shell appearance
 
-. $BASH_CONFIG/prompt
+. $SCRIPT_DIR/prompt
 
-BASH_CONFIG=~/.bash.d
-
-
-if [[ $MACHINE = "SFDC" ]]
-then
-  ######################################################################
-  # Salesforce specific
-
-  ######################################################################
-  # My own exports
-
-  export P4PASSWD=rmolinari
-  export P4EDITOR=jed
-  export P4CLIENT=rmolinari-desktop:main
-  export P4USER=rmolinari
-  export P4PORT=p4proxy.soma.salesforce.com:1999
-
-  ######################################################################
-  # Oracle
-  export ORACLE_HOME=/development/dev/tools/Linux/oracle/10.1.0.2
-  PATH=$PATH:$ORACLE_HOME/client/bin
-  export PATH
-  export LD_LIBRARY_PATH=$ORACLE_HOME/client/lib:$LD_LIBRARY_PATH
-
-
-  ######################################################################
-  # Path stuff
-
-  # tex
-  TEXLIVE=/usr/local/texlive/2009
-
-  export PATH=${TEXLIVE}/bin/x86_64-linux:$PATH
-  export MANPATH=${TEXLIVE}/doc/man:$MANPATH
-  export INFOPATH=${TEXLIVE}/doc/info:$INFOPATH
-
-  export PATH=/home/rmolinari/bin:/home/rmolinari/.gem/ruby/1.9.1/bin:$PATH
-fi
-
-
+unset SCRIPT_DIR
