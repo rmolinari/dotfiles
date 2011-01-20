@@ -14,7 +14,7 @@ function __prompt_exit_val
     fi
 }
 
-
+ 
 function setprompt 
 {
     function prompt_escape {
