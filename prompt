@@ -8,7 +8,7 @@
 # manipulation.  It is executed just before the prompt is displayed.
 function __my_prompt_command
 {
-    if [ -f "$HOME/.x11" ]
+    if [ -f "$HOME/.environment" ]
     then
         . $HOME/.environment
     fi
