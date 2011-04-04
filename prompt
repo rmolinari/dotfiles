@@ -1,6 +1,20 @@
 #
 # Set up my prompt
 
+#
+# PROMPT_COMMAND
+#
+# Note that this can be used to do things other than prompt
+# manipulation.  It is executed just before the prompt is displayed.
+function __my_prompt_command
+{
+    if [ -f "$HOME/.x11" ]
+    then
+        . $HOME/.x11
+    fi
+}
+export PROMPT_COMMAND=__my_prompt_command
+
 # When we are in a git-controlled directory the prompt includes the current
 # git branch and status.  In directories not in a git project there is no
 # such representation.

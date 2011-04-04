@@ -1,0 +1,10 @@
+##
+# Remember the DISPLAY variable
+#
+# Courtesy of Thomas Koeler
+
+if [ -z "$DISPLAY" ]; then
+    echo "Can't update X11 DISPLAY variable as \$DISPLAY is not set..."
+else
+    echo "export DISPLAY=$DISPLAY" > ~/.x11
+fi
