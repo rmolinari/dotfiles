@@ -10,7 +10,7 @@ function __my_prompt_command
 {
     if [ -f "$HOME/.x11" ]
     then
-        . $HOME/.x11
+        . $HOME/.environment
     fi
 }
 export PROMPT_COMMAND=__my_prompt_command
