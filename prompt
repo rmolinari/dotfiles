@@ -8,6 +8,8 @@
 # manipulation.  It is executed just before the prompt is displayed.
 function __my_prompt_command
 {
+    # Set DISPLAY, etc., to the values from the last login.  See
+    # bash-profile for the setup.
     if [ -f "$HOME/.environment" ]
     then
         . $HOME/.environment
