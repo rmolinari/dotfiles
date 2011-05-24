@@ -71,7 +71,7 @@ function setprompt
         eval "local BG_${color}=\$(bg ${code})"
     done
 
-    local BASE=${CYAN}
+    local BASE=${BLUE}
 
     # Show non-zero exit value
     local exit_val="\$(__prompt_exit_val '${RED}%s ${BASE}')"
