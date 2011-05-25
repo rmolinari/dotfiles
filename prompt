@@ -1,3 +1,5 @@
+## -*- mode: shell-script -*-
+
 #
 # Set up my prompt
 
@@ -51,7 +53,8 @@ function setprompt
     function bg {
         prompt_escape $(tput setab $1)
     }
-    
+
+    __log_msg "prompt: Defining BOLD and RESET_ALL.."    
     local BOLD=$(prompt_escape $(tput bold))
     local RESET_ALL=$(prompt_escape $(tput sgr0))
 
@@ -62,6 +65,7 @@ function setprompt
     #
     # We also define BG_<color> to set the background in each case.
     #
+    __log_msg "prompt: Setting up variables for colors..."
     local colors=( BLACK RED GREEN BROWN BLUE PURPLE CYAN GRAY )
     for code in ${!colors[@]}
     do
@@ -70,6 +74,8 @@ function setprompt
         eval "local B_${color}=\$(fg ${code})\${BOLD}"
         eval "local BG_${color}=\$(bg ${code})"
     done
+
+    __log_msg "prompt: Setting up variables for colors..."
 
     local BASE=${CYAN}
 

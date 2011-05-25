@@ -1,0 +1,28 @@
+## -*- mode: shell-script -*-
+
+######################################################################
+# Set up for my Plex environment
+
+##
+# Cygwin
+
+# This allows paths like /c/Users rather than /cygwin/C/Users
+mount --change-cygdrive-prefix /
+
+
+VERBOSE=0
+
+######################################################################
+# Cross-machine setup
+
+# Get directory containing this file
+# (This trick was found online.  It won't resolve symlinks.)
+pushd $(dirname ${BASH_SOURCE[0]}) > /dev/null
+SCRIPT_DIR=$PWD
+popd > /dev/null
+
+BASHRC_COMMON=$SCRIPT_DIR/bashrc-common
+
+if [[ -f $BASHRC_COMMON ]]; then
+  . $BASHRC_COMMON
+fi

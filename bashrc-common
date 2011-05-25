@@ -1,5 +1,15 @@
+## -*- mode: shell-script -*-
+
 ######################################################################
 # Cross-machine .bashrc
+
+function __log_msg {
+  if [[ $VERBOSE = 1 ]]; then
+    echo $1
+  fi
+}
+
+__log_msg "Entering bashrc-common"
 
 ######################################################################
 # Get directory containing this file
@@ -10,6 +20,8 @@ popd > /dev/null
 
 ######################################################################
 ## Shell options
+
+__log_msg "Setting sh options..."
 
 shopt -s cdspell  2>/dev/null
 shopt -s dirspell 2>/dev/null
@@ -35,3 +47,4 @@ function mysudo
 . $SCRIPT_DIR/prompt
 
 unset SCRIPT_DIR
+unset -f __log_msg
