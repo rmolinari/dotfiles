@@ -9,11 +9,13 @@
 # This allows paths like /c/Users rather than /cygwin/C/Users
 mount --change-cygdrive-prefix /
 
-
-VERBOSE=0
+# Run cron if it isn't already running
+(cygrunsrv -L | grep -q cron) || cygrunsrv -I cron -p /usr/sbin/cron -a -D
 
 ######################################################################
 # Cross-machine setup
+
+VERBOSE=0
 
 # Get directory containing this file
 # (This trick was found online.  It won't resolve symlinks.)
