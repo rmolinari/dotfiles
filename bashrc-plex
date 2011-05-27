@@ -10,7 +10,8 @@
 mount --change-cygdrive-prefix /
 
 # Run cron if it isn't already running
-(cygrunsrv -L | grep -q cron) || cygrunsrv -I cron -p /usr/sbin/cron -a -D
+# NOTE: this isn't working, and I can't work out why
+# (cygrunsrv -L | grep -q cron) || cygrunsrv -I cron -p /usr/sbin/cron
 
 ######################################################################
 # Cross-machine setup
