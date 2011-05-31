@@ -4,6 +4,12 @@
 # Set up for my Plex environment
 
 ##
+# Aliases
+
+alias cdw="cd /d/Development/Classic/POL_Local"
+
+
+##
 # Cygwin
 
 # This allows paths like /c/Users rather than /cygwin/C/Users
