@@ -8,6 +8,11 @@
 
 alias cdw="cd /d/Development/Classic/POL_Local"
 
+function asps ()
+{
+    find . -name \*.asp -print0 | xargs -0 grep -i $*
+}
+
 ##
 # Cygwin
 
