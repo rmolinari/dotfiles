@@ -39,3 +39,9 @@ BASHRC_COMMON=$SCRIPT_DIR/bashrc-common
 if [[ -f $BASHRC_COMMON ]]; then
   . $BASHRC_COMMON
 fi
+
+
+######################################################################
+# Path
+
+export PATH=${HOME}/local/node/bin:$PATH
