@@ -44,5 +44,8 @@ fi
 ######################################################################
 # Path
 
+
 export PATH=${HOME}/local/node/bin:$PATH
-export PATH=/c/haskell/2011.2.0.1/bin:$PATH
+
+GHC_ROOT=/c/haskell/2011.2.0.1
+export PATH=${GHC_ROOT}/bin:${GHC_ROOT}/lib/extralibs/bin:$PATH
