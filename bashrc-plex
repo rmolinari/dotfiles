@@ -45,3 +45,4 @@ fi
 # Path
 
 export PATH=${HOME}/local/node/bin:$PATH
+export PATH=/c/haskell/2011.2.0.1/bin:$PATH
