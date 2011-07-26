@@ -45,7 +45,13 @@ fi
 # Path
 
 
+# Node.js
 export PATH=${HOME}/local/node/bin:$PATH
 
+# Haskell
 GHC_ROOT=/c/haskell/2011.2.0.1
 export PATH=${GHC_ROOT}/bin:${GHC_ROOT}/lib/extralibs/bin:$PATH
+
+# JDK
+JDK_ROOT="/c/Program Files/Java/jdk1.6.0_26"
+export PATH=${JDK_ROOT}/bin:$PATH
