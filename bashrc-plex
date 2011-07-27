@@ -7,11 +7,14 @@
 # Aliases
 
 alias cdw="cd /d/Development/Classic/POL_Local"
+alias open=cygstart
 
 function asps ()
 {
     find . -name \*.asp -print0 | xargs -0 grep -i $*
 }
+
+
 
 ##
 # Cygwin
@@ -22,6 +25,34 @@ mount --change-cygdrive-prefix /
 # Run cron if it isn't already running
 # NOTE: this isn't working, and I can't work out why
 # (cygrunsrv -L | grep -q cron) || cygrunsrv -I cron -p /usr/sbin/cron
+
+
+##
+# Path
+
+
+# Node.js
+export PATH=${HOME}/local/node/bin:$PATH
+
+# Haskell
+GHC_ROOT=/c/haskell/2011.2.0.1
+export PATH=${GHC_ROOT}/bin:${GHC_ROOT}/lib/extralibs/bin:$PATH
+
+# JDK
+JDK_ROOT="/c/Program Files/Java/jdk1.6.0_26"
+export PATH=${JDK_ROOT}/bin:$PATH
+
+
+##
+# Toys, etc
+
+# ClojureScript
+export CLOJURESCRIPT_HOME=${HOME}/tools/clojurescript
+export PATH=${CLOJURESCRIPT_HOME}/bin:$PATH
+
+
+
+
 
 ######################################################################
 # Cross-machine setup
@@ -40,26 +71,3 @@ if [[ -f $BASHRC_COMMON ]]; then
   . $BASHRC_COMMON
 fi
 
-
-######################################################################
-# Path
-
-
-# Node.js
-export PATH=${HOME}/local/node/bin:$PATH
-
-# Haskell
-GHC_ROOT=/c/haskell/2011.2.0.1
-export PATH=${GHC_ROOT}/bin:${GHC_ROOT}/lib/extralibs/bin:$PATH
-
-# JDK
-JDK_ROOT="/c/Program Files/Java/jdk1.6.0_26"
-export PATH=${JDK_ROOT}/bin:$PATH
-
-
-######################################################################
-# Toys, etc
-
-# ClojureScript
-export CLOJURESCRIPT_HOME=${HOME}/tools/clojurescript
-export PATH=${CLOJURESCRIPT_HOME}/bin:$PATH
