@@ -30,7 +30,6 @@ mount --change-cygdrive-prefix /
 ##
 # Path
 
-
 # Node.js
 export PATH=${HOME}/local/node/bin:$PATH
 
@@ -41,6 +40,10 @@ export PATH=${GHC_ROOT}/bin:${GHC_ROOT}/lib/extralibs/bin:$PATH
 # JDK
 JDK_ROOT="/c/Program Files/Java/jdk1.6.0_26"
 export PATH=${JDK_ROOT}/bin:$PATH
+
+# byobu
+BYOBU_ROOT="${HOME}/local/byobu"
+export PATH=${BYOBU_ROOT}/bin:$PATH
 
 
 ##

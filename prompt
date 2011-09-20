@@ -58,6 +58,38 @@ function setprompt
     local BOLD=$(prompt_escape $(tput bold))
     local RESET_ALL=$(prompt_escape $(tput sgr0))
 
+    # Define global variables for each color and bold/bright: __PROMPT_COLOR_RED,
+    # __PROMPT_COLOR_B_RED, __PROMPT_COLOR_GREEN, etc
+    # 
+    # Each of these clears all text attributes first.  In particular they clear the background color
+    # so you'll need to keep track of that separately.
+    #
+    # We also define BG_<color> to set the background in each case.
+    local COLOR_PREFIX="__PROMPT_COLOR_"
+    local COLORS_DONE=${COLOR_PREFIX}DONE
+    function gen_colors {
+	__log_msg "prompt: Setting up variables for colors..."
+
+	if [[ -z ${!COLORS_DONE} ]]
+	then
+
+	    local colors=( BLACK RED GREEN BROWN BLUE PURPLE CYAN GRAY )
+	    for code in ${!colors[@]}
+	    do
+		local color=${colors[code]}
+		eval "export ${COLOR_PREFIX}${color}=\$(fg ${code})"
+		eval "export ${COLOR_PREFIX}B_${color}=\$(fg ${code})\${BOLD}"
+		eval "export ${COLOR_PREFIX}BG_${color}=\$(bg ${code})"
+	    done
+
+	    export ${COLORS_DONE}=1
+
+	    __log_msg "prompt: ...done setting up variables for colors"
+	else
+	    __log_msg "prompt: ...colors already done!"
+	fi
+    }
+
     ##
     # Define local variables for each color and bold/bright: RED, B_RED, GREEN, B_GREEN, etc
     # Each of these clears all text attributes first.  In particular they clear the
@@ -65,17 +97,11 @@ function setprompt
     #
     # We also define BG_<color> to set the background in each case.
     #
-    __log_msg "prompt: Setting up variables for colors..."
-    local colors=( BLACK RED GREEN BROWN BLUE PURPLE CYAN GRAY )
-    for code in ${!colors[@]}
-    do
-        local color=${colors[code]}
-        eval "local ${color}=\$(fg ${code})"
-        eval "local B_${color}=\$(fg ${code})\${BOLD}"
-        eval "local BG_${color}=\$(bg ${code})"
+    gen_colors
+    for global_color in ${!__PROMPT_COLOR_*}; do
+	local color=${global_color#__PROMPT_COLOR_}
+	eval "local ${color}=\${!global_color}"
     done
-
-    __log_msg "prompt: Setting up variables for colors..."
 
     local BASE=${CYAN}
 
