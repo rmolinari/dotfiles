@@ -115,7 +115,7 @@ function setprompt
     export GIT_PS1_SHOWUNTRACKEDFILES=true
     local git_status="\$(__git_ps1 ' ${BROWN}[%s]${BASE}')"
 
-    PS1="${BASE}[${exit_val}\u:\w]${git_status}\n\$(date +%H:%M:%S) ${RESET_ALL}"
+    PS1="${BASE}[${exit_val}\u:\w]${git_status}\n\$(date +%H:%M:%S) \$ ${RESET_ALL}"
 
     unset -f prompt_escape fg bg
 }
