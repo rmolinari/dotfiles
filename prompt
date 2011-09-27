@@ -108,12 +108,19 @@ function setprompt
     # Show non-zero exit value
     local exit_val="\$(__prompt_exit_val '${RED}%s ${BASE}')"
 
-    ##
-    # Git decoration
-    export GIT_PS1_SHOWDIRTYSTATE=true
-    export GIT_PS1_SHOWSTASHSTATE=true
-    export GIT_PS1_SHOWUNTRACKEDFILES=true
-    local git_status="\$(__git_ps1 ' ${BROWN}[%s]${BASE}')"
+    local git_status
+    if [[ "${OSTYPE}" == cygwin ]]
+    then
+	# The git status stuff is very slow under cygwin for some reason
+	git_status=""
+    else
+        ##
+        # Git decoration
+	export GIT_PS1_SHOWDIRTYSTATE=true
+	export GIT_PS1_SHOWSTASHSTATE=true
+	export GIT_PS1_SHOWUNTRACKEDFILES=true
+	git_status="\$(__git_ps1 ' ${BROWN}[%s]${BASE}')"
+    fi
 
     PS1="${BASE}[${exit_val}\u:\w]${git_status}\n\$(date +%H:%M:%S) \$ ${RESET_ALL}"
 
