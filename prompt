@@ -109,7 +109,7 @@ function setprompt
     local exit_val="\$(__prompt_exit_val '${RED}%s ${BASE}')"
 
     local git_status
-    if [[ "${OSTYPE,,[A-Z]}" =~ cygwin ]]  # downcase OSTYPE
+    if [[ "${OSTYPE,,}" =~ cygwin ]]  # downcase OSTYPE
     then
 	# The git status stuff is very slow under cygwin for some reason
 	git_status=""
