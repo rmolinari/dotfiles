@@ -45,6 +45,10 @@ export PATH=${JDK_ROOT}/bin:$PATH
 BYOBU_ROOT="${HOME}/local/byobu"
 export PATH=${BYOBU_ROOT}/bin:$PATH
 
+# ant
+export ANT_HOME="/c/Program Files (x86)/apache-ant-1.8.2"
+export PATH=${ANT_HOME}/bin:$PATH
+
 
 ##
 # Toys, etc
