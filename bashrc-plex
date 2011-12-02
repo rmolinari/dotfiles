@@ -7,6 +7,7 @@
 # Aliases
 
 alias cdw="cd /d/Development/Classic/POL_Local"
+alias cdr="cd /d/Development/DotNet/RenderingModules"
 alias open=cygstart
 
 function asps ()
@@ -30,6 +31,8 @@ mount --change-cygdrive-prefix /
 ##
 # Path
 
+PROGFILES_x86="/c/Program Files (x86)"
+
 # Node.js
 export PATH=${HOME}/local/node/bin:$PATH
 
@@ -46,8 +49,12 @@ BYOBU_ROOT="${HOME}/local/byobu"
 export PATH=${BYOBU_ROOT}/bin:$PATH
 
 # ant
-export ANT_HOME="/c/Program Files (x86)/apache-ant-1.8.2"
+export ANT_HOME="${PROGFILES_x86}/apache-ant-1.8.2"
 export PATH=${ANT_HOME}/bin:$PATH
+
+# racket
+RACKET_HOME="${PROGFILES_x86}/Racket"
+export PATH=${RACKET_HOME}:$PATH
 
 
 ##
@@ -56,9 +63,6 @@ export PATH=${ANT_HOME}/bin:$PATH
 # ClojureScript
 export CLOJURESCRIPT_HOME=${HOME}/tools/clojurescript
 export PATH=${CLOJURESCRIPT_HOME}/bin:$PATH
-
-
-
 
 
 ######################################################################
