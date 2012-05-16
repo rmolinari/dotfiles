@@ -6,13 +6,26 @@
 ##
 # Aliases
 
-alias cdw="cd /d/Development/Classic/POL_Local"
+export CLASSIC=/d/Development/Classic/POL_Local
+
+alias cdw="cd $CLASSIC"
 alias cdr="cd /d/Development/DotNet/RenderingModules"
 alias open=cygstart
+
+function ccp ()
+{
+    cp ${CLASSIC}/$1 $2
+}
+
 
 function asps ()
 {
     find . -name \*.asp -print0 | xargs -0 grep -i $*
+}
+
+function sless ()
+{
+    iconv -f utf-16le -t utf-8 $1 | less
 }
 
 
@@ -30,6 +43,8 @@ mount --change-cygdrive-prefix /
 
 ##
 # Path
+
+export PATH=/usr/local/bin:/bin:/usr/bin:$PATH
 
 PROGFILES_x86="/c/Program Files (x86)"
 
