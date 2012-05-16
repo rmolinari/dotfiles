@@ -13,11 +13,24 @@ function timer_start {
 }
 
 function timer_stop {
-  timer_show=$(($SECONDS - $timer))
+  timer_show=$(format_seconds $(($SECONDS - $timer)))
   unset timer
 }
 
 trap 'timer_start' DEBUG
+
+# convert integer seconds to Dd.HH:MM:SS
+function format_seconds {
+  if [[ ${1} -eq '0' ]]
+  then
+      echo 0s
+  else
+    printf "%dd%dh%dm%ds" \
+        $((((${1}/60)/60)/24)) $((((${1}/60)/60)%24)) \
+        $(((${1}/60)%60)) $((${1}%60)) |
+    sed 's/^0d\(0.\)*//;s/^0\([0-9]\)/\1/'
+  fi
+}
 
 #
 # PROMPT_COMMAND
@@ -127,7 +140,7 @@ function setprompt
     local exit_val="\$(__prompt_exit_val '${RED}%s ${BASE}')"
 
     # Time of last command
-    local last_time="${BROWN}"'${timer_show}'"s ${BASE}"
+    local last_time="${BROWN}"'${timer_show}'" ${BASE}"
 
     local git_status
     if [[ "${OSTYPE,,}" =~ cygwin ]]  # downcase OSTYPE
