@@ -12,22 +12,92 @@ alias cdw="cd $CLASSIC"
 alias cdr="cd /d/Development/DotNet/RenderingModules"
 alias open=cygstart
 
-function ccp ()
-{
-    cp ${CLASSIC}/$1 $2
-}
-
-
-function asps ()
-{
-    find . -name \*.asp -print0 | xargs -0 grep -i $*
-}
-
 function sless ()
 {
     iconv -f utf-16le -t utf-8 $1 | less
 }
 
+##
+# Pushing and pulling files from the Vault source tree
+# for local tracking
+export MY_PATH_SEP="~"
+
+# helpers
+function munge   { echo $1 | tr "/"            ${MY_PATH_SEP} ; }
+function demunge { echo $1 | tr ${MY_PATH_SEP} "/"            ; }
+
+# Check that the given file exists and is regular
+function check_file {
+  if [ ! -e $1 ]
+  then
+    echo $1 does not exist
+    return 1
+  elif [ ! -f $1 ]
+  then
+    echo $1 is not a regular file
+    return 1
+  fi
+}
+
+# Copy a file from the source tree to the local directory.
+# The relative path of the file (from the source tree root)
+# is preserved by changing all the slashes to tildes.
+function apull () {
+  amove pull $(munge $1) ${CLASSIC}/$1
+}
+
+# Copy a locally managed file back to the real source
+# tree
+function apush () {
+  amove push $1 ${CLASSIC}/$(demunge $1)
+}
+
+# Move a file to or from the real tree
+# Usage 'amove <op> munged full_path' where <op> is push or pull
+function amove () {
+  local op=$1
+  local munged=$2
+  local full_path=$3
+
+  check_file ${full_path} || return 1
+  case ${op} in
+    push)
+      if [ ! -w ${full_path} ]
+      then
+        echo File ${full_path} is not writable
+        return 1
+      fi
+
+      cp ./${munged} ${full_path}
+      ;;
+
+    pull)
+      cp ${full_path} ./${munged}
+      ;;
+
+    *)
+      echo "amove given unknown op: $op"
+      return 1
+      ;;
+  esac
+}
+
+# Refresh all of the .asp files tracked locally by copying the latest
+# version of each one from the source tree.
+#
+# We identify locally tracked files by looking for local file names
+# with embedded tildes.
+function apulla () {
+  local all_files=$(echo *?~?*)
+  local demunged
+  
+  for file in ${all_files}
+  do
+    demunged=$(demunge ${file})
+    echo ${demunged}
+    apull ${demunged} || (echo "Failure!"; exit 1)
+  done
+}
 
 
 ##
@@ -96,4 +166,3 @@ BASHRC_COMMON=$SCRIPT_DIR/bashrc-common
 if [[ -f $BASHRC_COMMON ]]; then
   . $BASHRC_COMMON
 fi
-
