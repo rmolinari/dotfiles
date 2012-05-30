@@ -135,13 +135,12 @@ function amove () {
 # with embedded tildes.
 function apulla () {
   local all_files=$(echo *?~?*)
-  local demunged
-  
+
   for file in ${all_files}
   do
-    demunged=$(demunge ${file})
-    echo ${demunged}
-    apull ${demunged} || (echo "Failure!"; exit 1)
+    echo -n ${file}...
+    apull ${file} || (echo "Failure!"; exit 1)
+    echo ok
   done
 }
 
