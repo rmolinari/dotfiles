@@ -71,22 +71,37 @@ function check_file {
 # Copy a file from the source tree to the local directory.
 # The relative path of the file (from the source tree root)
 # is preserved by changing all the slashes to tildes.
+#
+# The file name can be given with either / or ~ separators
 function apull () {
-  amove pull $(munge $1) ${CLASSIC}/$1
+  amove pull $1
 }
 
-# Copy a locally managed file back to the real source
-# tree
+# Copy a locally managed file back to the real source tree
+#
+# The file name can be given with either / or ~ separators
 function apush () {
-  amove push $1 ${CLASSIC}/$(demunge $1)
+  amove push $1
 }
 
 # Move a file to or from the real tree
-# Usage 'amove <op> munged full_path' where <op> is push or pull
+# Usage 'amove <op> path' where <op> is push or pull
+#
+# path should be relative to the source control root and
+# can be of the form Sales/Shipper.asp or Sales~Shipper.asp.
 function amove () {
   local op=$1
-  local munged=$2
-  local full_path=$3
+  local clean_path
+  # normalize $2 to a demunged version if necessary
+  if [[ "$2" == *~* ]]
+  then
+    clean_path=$(demunge $2)
+  else
+    clean_path=$2
+  fi
+
+  local munged=$(munge $clean_path)
+  local full_path=${CLASSIC}/${clean_path}
 
   local from to cf_args
 
