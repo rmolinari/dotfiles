@@ -16,9 +16,9 @@ popd > /dev/null
 ##
 # Aliases
 
-export CLASSIC=/d/Development/Classic/POL_Local
+export VAULT_ROOT=/d/Development/Classic/POL_Local
 
-alias cdw="cd $CLASSIC"
+alias cdw="cd $VAULT_ROOT"
 alias cdr="cd /d/Development/DotNet/RenderingModules"
 alias open=cygstart
 
@@ -101,7 +101,7 @@ function amove () {
   fi
 
   local munged=$(munge $clean_path)
-  local full_path=${CLASSIC}/${clean_path}
+  local full_path=${VAULT_ROOT}/${clean_path}
 
   local from to cf_args
 
