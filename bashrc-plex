@@ -88,17 +88,19 @@ function amove () {
   local munged=$2
   local full_path=$3
 
+  local from to cf_args
+
   case ${op} in
     push)
-      check_file -w ${full_path} || return 1          
-
-      cp ./${munged} ${full_path}
+      cf_args="-w"
+      from=./${munged}
+      to=${full_path}
       ;;
 
     pull)
-      check_file -w ${full_path} || return 1          
-
-      cp ${full_path} ./${munged}
+      cf_args=""
+      from=${full_path}
+      to=./${munged}
       ;;
 
     *)
@@ -106,6 +108,9 @@ function amove () {
       return 1
       ;;
   esac
+
+  check_file ${cf_args} ${full_path} || return 1
+  cp ${from} ${to}
 }
 
 # Refresh all of the .asp files tracked locally by copying the latest
