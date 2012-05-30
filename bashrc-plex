@@ -22,7 +22,7 @@ function sless ()
 # for local tracking
 export MY_PATH_SEP="~"
 
-# helpers
+# path helpers
 function munge   { echo $1 | tr "/"            ${MY_PATH_SEP} ; }
 function demunge { echo $1 | tr ${MY_PATH_SEP} "/"            ; }
 
