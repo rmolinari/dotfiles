@@ -88,7 +88,7 @@ function apush () {
 # Usage 'amove <op> path' where <op> is push or pull
 #
 # path should be relative to the source control root and
-# can be of the form Sales/Shipper.asp or Sales~Shipper.asp.
+# can be of the form dir/dir/file or dir~dir~file.
 function amove () {
   local op=$1
   local clean_path
@@ -100,22 +100,22 @@ function amove () {
     clean_path=$2
   fi
 
-  local munged=$(munge $clean_path)
-  local full_path=${VAULT_ROOT}/${clean_path}
+  local local_name=$(munge $clean_path)
+  local vault_full_path=${VAULT_ROOT}/${clean_path}
 
   local from to cf_args
 
   case ${op} in
     push)
       cf_args="-w"
-      from=./${munged}
-      to=${full_path}
+      from=./${local_name}
+      to=${vault_full_path}
       ;;
 
     pull)
       cf_args=""
-      from=${full_path}
-      to=./${munged}
+      from=${vault_full_path}
+      to=./${local_name}
       ;;
 
     *)
@@ -124,7 +124,7 @@ function amove () {
       ;;
   esac
 
-  check_file ${cf_args} ${full_path} || return 1
+  check_file ${cf_args} ${vault_full_path} || return 1
   cp ${from} ${to}
 }
 
