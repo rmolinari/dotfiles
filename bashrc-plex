@@ -17,6 +17,7 @@ popd > /dev/null
 # Aliases
 
 export VAULT_ROOT=/d/Development/Classic/POL_Local
+export VR=${VAULT_ROOT}
 
 alias cdw="cd $VAULT_ROOT"
 alias cdr="cd /d/Development/DotNet/RenderingModules"
