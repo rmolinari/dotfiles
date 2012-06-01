@@ -58,4 +58,3 @@ export PATH=${HOME}/bin:$PATH
 . $SCRIPT_DIR/prompt
 
 unset SCRIPT_DIR
-unset -f __log_msg
