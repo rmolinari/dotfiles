@@ -94,7 +94,7 @@ function amove () {
   local op=$1
   local clean_path
   # normalize $2 to a demunged version if necessary
-  if [[ "$2" == *~* ]]
+  if [[ "$2" == *${MY_PATH_SEP}* ]]
   then
     clean_path=$(demunge $2)
   else
