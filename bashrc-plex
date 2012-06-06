@@ -40,9 +40,9 @@ function demunge { echo $1 | tr ${MY_PATH_SEP} "/"            ; }
 function normalize {
   if [[ "$1" == *${MY_PATH_SEP}* ]]
   then
-    demunge $1
+    demunge "$1"
   else
-    echo $1
+    echo "$1"
   fi
 }
 
@@ -59,15 +59,15 @@ function check_file {
     echo 'Error: filename missing' >&2
     flags_help
     ret=1
-  elif [[ ! -e $1 ]]
+  elif [[ ! -e "$1" ]]
   then
     echo $1 does not exist
     ret=1
-  elif [[ ! -f $1 ]]
+  elif [[ ! -f "$1" ]]
   then
     echo $1 is not a regular file
     ret=1
-  elif [[ ${FLAGS_writeable} = ${FLAGS_TRUE} && ! -w $1 ]]
+  elif [[ ${FLAGS_writeable} = ${FLAGS_TRUE} && ! -w "$1" ]]
   then
     echo $1 is not writable
     ret=1
@@ -84,14 +84,14 @@ function check_file {
 #
 # The file name can be given with either / or ~ separators
 function apull () {
-  amove pull $1
+  amove pull "$1"
 }
 
 # Copy a locally managed file back to the real source tree
 #
 # The file name can be given with either / or ~ separators
 function apush () {
-  amove push $1
+  amove push "$1"
 }
 
 # Move a file to or from the real tree
@@ -103,7 +103,7 @@ function amove () {
   local op=$1
   local clean_path
   # normalize $2 to a demunged version if necessary
-  clean_path=$(normalize $2)
+  clean_path=$(normalize "$2")
 
   local local_name=$(munge $clean_path)
   local vault_full_path=${VAULT_ROOT}/${clean_path}
@@ -129,8 +129,8 @@ function amove () {
       ;;
   esac
 
-  check_file ${cf_args} ${vault_full_path} || return 1
-  cp ${from} ${to}
+  check_file ${cf_args} "${vault_full_path}" || return 1
+  cp "${from}" "${to}"
 }
 
 # Refresh all of the .asp files tracked locally by copying the latest
@@ -143,7 +143,7 @@ function apulla () {
   do
     [[ -f "$file" ]] || continue
     echo -n ${file}...
-    apull ${file} || (echo "Failure!"; exit 1)
+    apull "${file}" || (echo "Failure!"; exit 1)
     echo ok
   done
 }
@@ -152,7 +152,7 @@ function apulla () {
 function adiff() {
   local clean_path=$(normalize $1)
 
-  diff ${VAULT_ROOT}/${clean_path} $(munge ${clean_path})
+  diff "${VAULT_ROOT}/${clean_path}" "$(munge ${clean_path})"
 }
 
 
