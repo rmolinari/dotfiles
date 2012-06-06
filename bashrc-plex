@@ -37,6 +37,15 @@ export MY_PATH_SEP="~"
 function munge   { echo $1 | tr "/"            ${MY_PATH_SEP} ; }
 function demunge { echo $1 | tr ${MY_PATH_SEP} "/"            ; }
 
+function normalize {
+  if [[ "$1" == *${MY_PATH_SEP}* ]]
+  then
+    demunge $1
+  else
+    echo $1
+  fi
+}
+
 # Check that the given file exists and is regular
 function check_file {
   DEFINE_boolean 'writeable' false 'also check whether file is writable' 'w'
@@ -94,12 +103,7 @@ function amove () {
   local op=$1
   local clean_path
   # normalize $2 to a demunged version if necessary
-  if [[ "$2" == *${MY_PATH_SEP}* ]]
-  then
-    clean_path=$(demunge $2)
-  else
-    clean_path=$2
-  fi
+  clean_path=$(normalize $2)
 
   local local_name=$(munge $clean_path)
   local vault_full_path=${VAULT_ROOT}/${clean_path}
@@ -135,15 +139,22 @@ function amove () {
 # We identify locally tracked files by looking for local file names
 # with embedded tildes.
 function apulla () {
-  local all_files=$(echo *?~?*)
-
-  for file in ${all_files}
+  for file in *?~?*
   do
+    [[ -f "$file" ]] || continue
     echo -n ${file}...
     apull ${file} || (echo "Failure!"; exit 1)
     echo ok
   done
 }
+
+# Diff a file: source tree v local
+function adiff() {
+  local clean_path=$(normalize $1)
+
+  diff ${VAULT_ROOT}/${clean_path} $(munge ${clean_path})
+}
+
 
 
 ##
