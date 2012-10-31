@@ -1,0 +1,180 @@
+## -*- mode: shell-script -*-
+
+######################################################################
+# Set up for my Plex environment
+
+# Get directory containing this file
+# (This trick was found online.  It won't resolve symlinks.)
+pushd $(dirname ${BASH_SOURCE[0]}) > /dev/null
+SCRIPT_DIR=$PWD
+popd > /dev/null
+
+# Use shflags
+. ${SCRIPT_DIR}/shflags
+
+##
+# Aliases
+##
+
+
+# Pushing and pulling files from an SVN source tree
+# for local tracking.  Based on my Vault code from Plex
+function set_up_svn_path {
+  export SVN_PROJECT=$1
+  export SVN_ROOT=${HOME}/work/${SVN_PROJECT}/trunk
+}
+
+DEFAULT_SVN_PROJECT=acma
+set_up_svn_path ${DEFAULT_SVN_PROJECT}
+
+export MY_PATH_SEP="~"
+
+# path helpers
+function munge   { echo $1 | tr "/"            ${MY_PATH_SEP} ; }
+function demunge { echo $1 | tr ${MY_PATH_SEP} "/"            ; }
+
+# Make sure it's a /-separated path
+function normalize {
+  if [[ "$1" == *${MY_PATH_SEP}* ]]
+  then
+    demunge "$1"
+  else
+    echo "$1"
+  fi
+}
+
+# Check that the given file exists and is regular
+function check_file {
+  DEFINE_boolean 'writeable' false 'also check whether file is writable' 'w'
+  FLAGS "$@" || return 1
+  eval set -- "${FLAGS_ARGV}"
+
+  local ret=0
+
+  if [[ $# -eq 0 ]]
+  then
+    echo 'Error: filename missing' >&2
+    flags_help
+    ret=1
+  elif [[ ! -e "$1" ]]
+  then
+    echo $1 does not exist
+    ret=1
+  elif [[ ! -f "$1" ]]
+  then
+    echo $1 is not a regular file
+    ret=1
+  elif [[ ${FLAGS_writeable} = ${FLAGS_TRUE} && ! -w "$1" ]]
+  then
+    echo $1 is not writable
+    ret=1
+  fi
+
+  flags_reset
+
+  return ${ret}
+}
+
+# Copy a file from the source tree to the local directory.
+# The relative path of the file (from the source tree root)
+# is preserved by changing all the slashes to tildes.
+#
+# The file name can be given with either / or ~ separators
+function apull () {
+  amove pull "$1"
+}
+
+# Copy a locally managed file back to the real source tree
+#
+# The file name can be given with either / or ~ separators
+function apush () {
+  amove push "$1"
+}
+
+# Move a file to or from the real tree
+# Usage 'amove <op> path' where <op> is push or pull
+#
+# path should be relative to the source control root and
+# can be of the form dir/dir/file or dir~dir~file.
+function amove () {
+  local op=$1
+  local clean_path
+  # normalize $2 to a demunged version if necessary
+  clean_path=$(normalize "$2")
+
+  local local_name=$(munge $clean_path)
+  local vault_full_path=${SVN_ROOT}/${clean_path}
+
+  local from to cf_args
+
+  case ${op} in
+    push)
+      cf_args="-w"
+      from=./${local_name}
+      to=${svn_full_path}
+      ;;
+
+    pull)
+      cf_args=""
+      from=${svn_full_path}
+      to=./${local_name}
+      ;;
+
+    *)
+      echo "amove given unknown op: $op"
+      return 1
+      ;;
+  esac
+
+  check_file ${cf_args} "${svn_full_path}" || return 1
+  cp "${from}" "${to}"
+}
+
+# Refresh all of the files tracked locally by copying the latest
+# version of each one from the source tree.
+#
+# We identify locally tracked files by looking for local file names
+# with embedded tildes.
+function apulla () {
+  for file in *?~?*
+  do
+    [[ -f "$file" ]] || continue
+    echo -n ${file}...
+    apull "${file}" || (echo "Failure!"; exit 1)
+    echo ok
+  done
+}
+
+# Diff a file: source tree v local
+function adiff() {
+  local clean_path=$(normalize $1)
+
+  diff "${SVN_ROOT}/${clean_path}" "$(munge ${clean_path})"
+}
+
+
+
+##
+# Path
+
+export PATH=/usr/local/bin:/bin:/usr/bin:$PATH
+
+##
+# Editor tools
+export EDITOR=$(which jed)
+
+# byobu
+#BYOBU_ROOT="${HOME}/local/byobu"
+#export PATH=${BYOBU_ROOT}/bin:$PATH
+
+######################################################################
+# Cross-machine setup
+
+VERBOSE=0
+
+
+BASHRC_COMMON=$SCRIPT_DIR/bashrc-common
+
+if [[ -f $BASHRC_COMMON ]]; then
+  . $BASHRC_COMMON
+fi
