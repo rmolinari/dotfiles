@@ -7,6 +7,8 @@ function set_up_svn_path {
   export SVN_ROOT=${HOME}/work/${SVN_PROJECT}/trunk
 }
 
+alias sas set_up_svn_path
+
 DEFAULT_SVN_PROJECT=acma
 set_up_svn_path ${DEFAULT_SVN_PROJECT}
 
@@ -75,7 +77,8 @@ function check_file {
 
 # Copy a file from the source tree to the local directory.
 # The relative path of the file (from the source tree root)
-# is preserved by changing all the slashes to tildes.
+# is preserved by changing all the slashes to tildes.  If
+# there is no slash then we prefix the filename with an @.
 #
 # The file name can be given with either / or ~ separators
 function apull () {
