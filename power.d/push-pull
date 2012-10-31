@@ -7,7 +7,7 @@ function set_up_svn_path {
   export SVN_ROOT=${HOME}/work/${SVN_PROJECT}/trunk
 }
 
-alias sas set_up_svn_path
+alias sas=set_up_svn_path
 
 DEFAULT_SVN_PROJECT=acma
 set_up_svn_path ${DEFAULT_SVN_PROJECT}
