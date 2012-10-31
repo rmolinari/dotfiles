@@ -28,14 +28,29 @@ DEFAULT_SVN_PROJECT=acma
 set_up_svn_path ${DEFAULT_SVN_PROJECT}
 
 export MY_PATH_SEP="~"
+export MUNGE_PREFIX="@"  #prefix for files that don't have a / in their path from the root
 
 # path helpers
-function munge   { echo $1 | tr "/"            ${MY_PATH_SEP} ; }
-function demunge { echo $1 | tr ${MY_PATH_SEP} "/"            ; }
+function munge   {
+  if [[ "$1" == */* ]]
+  then
+    echo $1 | tr "/"            ${MY_PATH_SEP} ;
+  else
+    echo ${MUNGE_PREFIX}$1
+  fi
+}
+function demunge {
+  if [[ $1 == *${MY_PATH_SEP}* ]]
+  then
+    echo $1 | tr ${MY_PATH_SEP} "/"
+  else
+    echo $1 | sed -e "s/^${MUNGE_PREFIX}//"
+  fi
+}
 
 # Make sure it's a /-separated path
 function normalize {
-  if [[ "$1" == *${MY_PATH_SEP}* ]]
+  if [[ "$1" == *${MY_PATH_SEP}*  || "$1" == ${MUNGE_PREFIX}* ]]
   then
     demunge "$1"
   else
@@ -103,7 +118,7 @@ function amove () {
   clean_path=$(normalize "$2")
 
   local local_name=$(munge $clean_path)
-  local vault_full_path=${SVN_ROOT}/${clean_path}
+  local svn_full_path=${SVN_ROOT}/${clean_path}
 
   local from to cf_args
 
@@ -132,11 +147,8 @@ function amove () {
 
 # Refresh all of the files tracked locally by copying the latest
 # version of each one from the source tree.
-#
-# We identify locally tracked files by looking for local file names
-# with embedded tildes.
 function apulla () {
-  for file in *?~?*
+  for file in *?${MY_PATH_SEP}?* ${MUNGE_PREFIX}*
   do
     [[ -f "$file" ]] || continue
     echo -n ${file}...
