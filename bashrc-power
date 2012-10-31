@@ -33,7 +33,7 @@ export PATH=/usr/local/bin:/bin:/usr/bin:$PATH
 
 ##
 # Editor tools
-export EDITOR=$(which jed)
+export EDITOR=$(which vim)
 
 # byobu
 #BYOBU_ROOT="${HOME}/local/byobu"
