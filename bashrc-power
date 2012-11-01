@@ -17,7 +17,6 @@ popd > /dev/null
 ##
 
 
-
 ##
 # Include other PA-specific files
 ##
@@ -38,6 +37,12 @@ _incl_file push-pull
 _incl_file bash_completion
 
 unset -f _incl_file
+
+##
+# Projects
+##
+alias acma="sas acma"
+alias pdt="sas pdt"
 
 ##
 # Path
