@@ -13,37 +13,47 @@
 # - I couldn't even get glob wildcards to expand in here, which ruled out using
 #   something simple like "ls <pat>*" instead of find.
 #
-# I should spend some time looking at the pre-packaged examples in /etc/bash_completion.d
+# I should spend some time looking at the pre-packaged examples in /usr/local/etc/bash_completion.d.
+# rcs in that directory gave some tips
 _pushpull()
 {
   shopt -s extglob
+  local cur dirs files findpath match_prefix saveIFS
 
-  local cur dirs files findpath match_prefix
+  # Allow for spaces in filenames
+  saveIFS=$IFS
+  IFS=$'\n'
+
   COMPREPLY=()
   cur="${COMP_WORDS[COMP_CWORD]}"
 
-  dirpart=$(dirname "${cur}")
-  filepart=$(basename "${cur}")
-  if [[ ${cur} == */ ]]
-  then
-    findpath=$(echo ${SVN_ROOT}/${cur} | sed -e "s|/$||")
-    match_prefix=${cur}
-  elif [[ ${dirpart} == "." ]]
-  then
-    findpath=${SVN_ROOT}
-    match_prefix=${filepart}
-  else
-    findpath=${SVN_ROOT}/${dirpart}
-    match_prefix=${dirpart}/${filepart}
-  fi
+  # dirpart=${cur%/*}
+  # filepart=${cur##*/}
+  # [[ "${filepart}" = "${dirpart}" ]] && dirpart=
+  # if [[ ${dirpart} == "" ]]
+  # then
+  #   findpath=${SVN_ROOT}
+  #   match_prefix=${filepart}
+  # else
+  #   findpath=${SVN_ROOT}/${dirpart}
+  #   match_prefix=${dirpart}/${filepart}
+  # fi
 
-  dirs=$(find ${findpath} -type d -depth 1 | sed -E -e "s|^${SVN_ROOT}/?||" -e "s|$|/|" | grep "^${match_prefix}")
-  files=$(find ${findpath} -type f -depth 1 | sed -E -e "s|^${SVN_ROOT}/?||" | grep "^${match_prefix}")
+  #dirs=$(find ${findpath} -type d -depth 1 | sed -E -e "s|^${SVN_ROOT}/?||" -e "s|$|/|" | grep "^${match_prefix}")
+  #dirs=$(compgen -S/ -d "${SVN_ROOT}/${cur}" | sed -E -e "s|^${SVN_ROOT}/?||")
+  #files=$(find ${findpath} -type f -depth 1 | sed -E -e "s|^${SVN_ROOT}/?||" | grep "^${match_prefix}")
 
-  COMPREPLY=($(compgen -W "${dirs} ${files}" -- ${cur}))
+  # compgen finds the files
+  # ls -pd makes sure there are trailing slashes on the directories
+  # sed strips off the SVN_ROOT prefix
+  files=$(ls -pd $(compgen -f "${SVN_ROOT}/${cur}") | sed -E -e "s|^${SVN_ROOT}/?||")
+
+  COMPREPLY=($(compgen -W "${files}" -- ${cur}))
+
+  IFS=${saveIFS}
 }
 
-complete -o nospace -o filenames -F _pushpull amove apull apush
+complete -o nospace -o filenames -F _pushpull apull apush
 
 
 
