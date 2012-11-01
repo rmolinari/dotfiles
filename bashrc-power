@@ -17,14 +17,27 @@ popd > /dev/null
 ##
 
 
+
 ##
 # Include other PA-specific files
 ##
 PA_INCL_DIR=${SCRIPT_DIR}/power.d
-if [[ -f ${PA_INCL_DIR}/push-pull ]]
-then
-  . ${PA_INCL_DIR}/push-pull
-fi
+_incl_file()
+{
+  local f
+  f=${PA_INCL_DIR}/$1
+  if [[ -f ${f} ]]
+  then
+    . ${f}
+  else
+    echo "In bashrc-power: ${f} does not exist"
+  fi
+}
+
+_incl_file push-pull
+_incl_file bash_completion
+
+unset -f _incl_file
 
 ##
 # Path
