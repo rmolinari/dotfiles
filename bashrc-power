@@ -15,7 +15,7 @@ popd > /dev/null
 ##
 # Aliases
 ##
-
+alias ss="svn status"
 
 ##
 # Include other PA-specific files
@@ -43,6 +43,8 @@ unset -f _incl_file
 ##
 alias acma="sas acma"
 alias pdt="sas pdt"
+
+alias cdw='cd ${SVN_ROOT}'
 
 ##
 # Path
