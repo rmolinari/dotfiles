@@ -44,6 +44,8 @@ function normalize {
 }
 
 # Check that the given file exists and is regular
+#
+# Known issues: cannot handle filenames with spaces
 function check_file {
   DEFINE_boolean 'writeable' false 'also check whether file is writable' 'w'
   FLAGS "$@" || return 1
