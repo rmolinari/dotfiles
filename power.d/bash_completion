@@ -1,0 +1,52 @@
+## -*- mode: shell-script -*-
+
+# Simple completion assistance to help with paths relative to $SVN_ROOT
+#
+# This works (sort of).  Why is it so complicated?
+#
+# Some of the many issues that I had:
+#
+# - I want directories to get trailing spaces but this corner of bash does not
+#   appear to honor mark-directories, even with "-o filenames".  This forced me
+#   to generated the directories and files separately with find and attach the
+#   trailing slash myself.
+# - I couldn't even get glob wildcards to expand in here, which ruled out using
+#   something simple like "ls <pat>*" instead of find.
+#
+# I should spend some time looking at the pre-packaged examples in /etc/bash_completion.d
+_pushpull()
+{
+  shopt -s extglob
+
+  local cur dirs files findpath match_prefix
+  COMPREPLY=()
+  cur="${COMP_WORDS[COMP_CWORD]}"
+
+  dirpart=$(dirname "${cur}")
+  filepart=$(basename "${cur}")
+  if [[ ${cur} == */ ]]
+  then
+    findpath=$(echo ${SVN_ROOT}/${cur} | sed -e "s|/$||")
+    match_prefix=${cur}
+  elif [[ ${dirpart} == "." ]]
+  then
+    findpath=${SVN_ROOT}
+    match_prefix=${filepart}
+  else
+    findpath=${SVN_ROOT}/${dirpart}
+    match_prefix=${dirpart}/${filepart}
+  fi
+
+  dirs=$(find ${findpath} -type d -depth 1 | sed -E -e "s|^${SVN_ROOT}/?||" -e "s|$|/|" | grep "^${match_prefix}")
+  files=$(find ${findpath} -type f -depth 1 | sed -E -e "s|^${SVN_ROOT}/?||" | grep "^${match_prefix}")
+
+  COMPREPLY=($(compgen -W "${dirs} ${files}" -- ${cur}))
+}
+
+complete -o nospace -o filenames -F _pushpull amove apull apush
+
+
+
+
+
+
