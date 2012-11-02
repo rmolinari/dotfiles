@@ -158,7 +158,7 @@ function setprompt
 
     PS1="${BASE}[${last_time}${exit_val}\u:\w]${git_status}\n\$(date +%H:%M:%S) \$ ${RESET_ALL}"
 
-    unset -f prompt_escape fg bg
+    unset -f prompt_escape fg bg gen_colors
 }
 
 setprompt
