@@ -52,8 +52,28 @@ alias cdw='cd ${SVN_ROOT}'
 export PATH=/usr/local/bin:/bin:/usr/bin:$PATH
 
 ##
+# Emacs and emacsclient
+EMACS_APP=/Applications/Emacs.app/
+EMACS_APP_MACOS=${EMACS_APP}/Contents/MacOS
+#EMACS_BIN=${EMACS_APP_MACOS}/bin
+
+emacs=${EMACS_APP_MACOS}/Emacs
+#emacsclient=${EMACS_BIN}/emacsclient
+
+# start a windowed frame
+#alias emacs_win="${emacsclient} -c -a ${emacs}"
+
+# start a terminal frame
+#alias emacs_terminal="${emacsclient} -t -a ${emacs} -nw"
+
+# do not start a new frame
+#alias emacs_d="${emacsclient} -a ${emacs}"
+#
+alias e=emacs_d
+
+##
 # Editor tools
-export EDITOR=$(which vim)
+export EDITOR=emacs_d ALTERNATE_EDITOR=${emacs}
 
 # byobu
 #BYOBU_ROOT="${HOME}/local/byobu"
