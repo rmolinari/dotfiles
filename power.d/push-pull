@@ -9,7 +9,7 @@ function set_up_svn_path {
 
 alias sas=set_up_svn_path
 
-DEFAULT_SVN_PROJECT=acma
+DEFAULT_SVN_PROJECT=pdf
 set_up_svn_path ${DEFAULT_SVN_PROJECT}
 
 export MY_PATH_SEP="~"

@@ -49,6 +49,8 @@ unset -f _incl_file
 alias acma="sas acma"
 alias pdt="sas pdt"
 
+pdt
+
 alias cdw='cd ${SVN_ROOT}'
 
 ##
