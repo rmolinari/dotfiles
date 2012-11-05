@@ -18,6 +18,11 @@ popd > /dev/null
 alias ss="svn status"
 
 ##
+# INFOPATH
+##
+export INFOPATH=/Applications/Emacs.app/Contents/Resources/info:/usr/share/info
+
+##
 # Include other PA-specific files
 ##
 PA_INCL_DIR=${SCRIPT_DIR}/power.d
