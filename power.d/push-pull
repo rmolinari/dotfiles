@@ -3,14 +3,16 @@
 # Pushing and pulling files from an SVN source tree
 # for local tracking.  Based on my Vault code from Plex
 function set_up_svn_path {
-  export SVN_PROJECT=$1
-  export SVN_ROOT=${HOME}/work/${SVN_PROJECT}/trunk
+    export SVN_ROOT=${HOME}/work/${1}
 }
 
-alias sas=set_up_svn_path
+function set_up_svn_path_trunk {
+  set_up_svn_path ${1}/trunk
+}
 
-DEFAULT_SVN_PROJECT=pdf
-set_up_svn_path ${DEFAULT_SVN_PROJECT}
+alias sus=set_up_svn_path
+alias sust=set_up_svn_path_trunk
+
 
 export MY_PATH_SEP="~"
 export MUNGE_PREFIX="@"  #prefix for files that don't have a / in their path from the root
@@ -19,7 +21,7 @@ export MUNGE_PREFIX="@"  #prefix for files that don't have a / in their path fro
 function munge   {
   if [[ "$1" == */* ]]
   then
-    echo $1 | tr "/"            ${MY_PATH_SEP} ;
+    echo $1 | tr "/" ${MY_PATH_SEP} ;
   else
     echo ${MUNGE_PREFIX}$1
   fi

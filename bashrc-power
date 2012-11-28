@@ -46,10 +46,14 @@ unset -f _incl_file
 ##
 # Projects
 ##
-alias acma="sas acma"
-alias pdt="sas pdt"
 
-pdt
+# sust and sus are defined in power.d/push-pull
+alias acma="sust acma"
+alias pdt="sust pdt"
+alias boem="sus boem"
+
+# Default is boem
+boem
 
 alias cdw='cd ${SVN_ROOT}'
 

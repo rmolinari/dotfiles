@@ -6,15 +6,15 @@
 #
 # Some of the many issues that I had:
 #
-# - I want directories to get trailing spaces but this corner of bash does not
-#   appear to honor mark-directories, even with "-o filenames".  This forced me
-#   to generated the directories and files separately with find and attach the
-#   trailing slash myself.
-# - I couldn't even get glob wildcards to expand in here, which ruled out using
-#   something simple like "ls <pat>*" instead of find.
+# - It took many hours of experimenting to get this working, mainly because I
+#   couldn't get compgen and complete to put trailing slashes on directory names.
+#   I tried many different things without luck.  After poking around for a while
+#   in /usr/local/etc/bash_completion.d I had a few more ideas and came up with
+#   what follows.
 #
-# I should spend some time looking at the pre-packaged examples in /usr/local/etc/bash_completion.d.
-# rcs in that directory gave some tips
+# TODO: also complete against files in the current directory (which are expected to
+#       be the tilde-separated ones.)
+#
 _pushpull()
 {
   shopt -s extglob
@@ -27,22 +27,6 @@ _pushpull()
   COMPREPLY=()
   cur="${COMP_WORDS[COMP_CWORD]}"
 
-  # dirpart=${cur%/*}
-  # filepart=${cur##*/}
-  # [[ "${filepart}" = "${dirpart}" ]] && dirpart=
-  # if [[ ${dirpart} == "" ]]
-  # then
-  #   findpath=${SVN_ROOT}
-  #   match_prefix=${filepart}
-  # else
-  #   findpath=${SVN_ROOT}/${dirpart}
-  #   match_prefix=${dirpart}/${filepart}
-  # fi
-
-  #dirs=$(find ${findpath} -type d -depth 1 | sed -E -e "s|^${SVN_ROOT}/?||" -e "s|$|/|" | grep "^${match_prefix}")
-  #dirs=$(compgen -S/ -d "${SVN_ROOT}/${cur}" | sed -E -e "s|^${SVN_ROOT}/?||")
-  #files=$(find ${findpath} -type f -depth 1 | sed -E -e "s|^${SVN_ROOT}/?||" | grep "^${match_prefix}")
-
   # compgen finds the files
   # ls -pd makes sure there are trailing slashes on the directories
   # sed strips off the SVN_ROOT prefix
@@ -54,9 +38,3 @@ _pushpull()
 }
 
 complete -o nospace -o filenames -F _pushpull apull apush
-
-
-
-
-
-
