@@ -1,0 +1,20 @@
+# This forces screen to start a login shell, so it
+# doesn't lose the stuff from .bash_profile
+shell -$SHELL
+
+startup_message off
+
+hardstatus alwayslastline "%w"
+
+# Startup windows
+screen
+screen
+screen
+screen
+
+select 0
+
+
+# Keybindings
+
+escape ``
