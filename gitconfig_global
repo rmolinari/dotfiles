@@ -1,0 +1,10 @@
+[core]
+	# Emacs via a daemon
+	editor = emacs_d
+	excludesfile = /Users/rory/.gitignore_global
+[user]
+	email = quokka@gmail.com
+[push]
+	default = simple
+[color]
+	ui = true
