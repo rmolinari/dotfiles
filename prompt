@@ -64,7 +64,7 @@ function __prompt_exit_val
 }
 
 
-function setprompt 
+function setprompt
 {
     function prompt_escape {
         echo "\[$1\]"
@@ -85,13 +85,13 @@ function setprompt
         prompt_escape $(tput setab $1)
     }
 
-    __log_msg "prompt: Defining BOLD and RESET_ALL.."    
+    __log_msg "prompt: Defining BOLD and RESET_ALL.."
     local BOLD=$(prompt_escape $(tput bold))
     local RESET_ALL=$(prompt_escape $(tput sgr0))
 
     # Define global variables for each color and bold/bright: __PROMPT_COLOR_RED,
     # __PROMPT_COLOR_B_RED, __PROMPT_COLOR_GREEN, etc
-    # 
+    #
     # Each of these clears all text attributes first.  In particular they clear the background color
     # so you'll need to keep track of that separately.
     #
@@ -99,26 +99,26 @@ function setprompt
     local COLOR_PREFIX="__PROMPT_COLOR_"
     local COLORS_DONE=${COLOR_PREFIX}DONE
     function gen_colors {
-	__log_msg "prompt: Setting up variables for colors..."
+        __log_msg "prompt: Setting up variables for colors..."
 
-	if [[ -z ${!COLORS_DONE} ]]
-	then
+        if [[ -z ${!COLORS_DONE} ]]
+        then
 
-	    local colors=( BLACK RED GREEN BROWN BLUE PURPLE CYAN GRAY )
-	    for code in ${!colors[@]}
-	    do
-		local color=${colors[code]}
-		eval "export ${COLOR_PREFIX}${color}=\$(fg ${code})"
-		eval "export ${COLOR_PREFIX}B_${color}=\$(fg ${code})\${BOLD}"
-		eval "export ${COLOR_PREFIX}BG_${color}=\$(bg ${code})"
-	    done
+            local colors=( BLACK RED GREEN BROWN BLUE PURPLE CYAN GRAY )
+            for code in ${!colors[@]}
+            do
+                local color=${colors[code]}
+                eval "export ${COLOR_PREFIX}${color}=\$(fg ${code})"
+                eval "export ${COLOR_PREFIX}B_${color}=\$(fg ${code})\${BOLD}"
+                eval "export ${COLOR_PREFIX}BG_${color}=\$(bg ${code})"
+            done
 
-	    export ${COLORS_DONE}=1
+            export ${COLORS_DONE}=1
 
-	    __log_msg "prompt: ...done setting up variables for colors"
-	else
-	    __log_msg "prompt: ...colors already done!"
-	fi
+            __log_msg "prompt: ...done setting up variables for colors"
+        else
+            __log_msg "prompt: ...colors already done!"
+        fi
     }
 
     ##
@@ -130,8 +130,8 @@ function setprompt
     #
     gen_colors
     for global_color in ${!__PROMPT_COLOR_*}; do
-	local color=${global_color#__PROMPT_COLOR_}
-	eval "local ${color}=\${!global_color}"
+        local color=${global_color#__PROMPT_COLOR_}
+        eval "local ${color}=\${!global_color}"
     done
 
     local BASE=${CYAN}
@@ -145,18 +145,18 @@ function setprompt
     local git_status
     if [[ "${OSTYPE,,}" =~ cygwin ]]  # downcase OSTYPE
     then
-	# The git status stuff is very slow under cygwin for some reason
-	git_status=""
+        # The git status stuff is very slow under cygwin for some reason
+        git_status=""
     else
         ##
         # Git decoration
-	export GIT_PS1_SHOWDIRTYSTATE=true
-	export GIT_PS1_SHOWSTASHSTATE=true
-	export GIT_PS1_SHOWUNTRACKEDFILES=true
-	git_status="\$(__git_ps1 ' ${BROWN}[%s]${BASE}')"
+        export GIT_PS1_SHOWDIRTYSTATE=true
+        export GIT_PS1_SHOWSTASHSTATE=true
+        export GIT_PS1_SHOWUNTRACKEDFILES=true
+        git_status="\$(__git_ps1 ' ${BROWN}[%s]${BASE}')"
     fi
 
-    PS1="${BASE}[${last_time}${exit_val}\u:\w]${git_status}\n\$(date +%H:%M:%S) \$ ${RESET_ALL}"
+    PS1="${BASE}[${last_time}${exit_val}\u:\w]${git_status}\n\$(date +%H:%M:%S) (bash)\$ ${RESET_ALL}"
 
     unset -f prompt_escape fg bg gen_colors
 }
