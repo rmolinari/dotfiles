@@ -4,13 +4,22 @@ shell -$SHELL
 
 startup_message off
 
-hardstatus alwayslastline "%w"
+defscrollback 5000
+
+# List the windows at the bottom of the screen, with the current window
+# highlighted in green
+hardstatus alwayslastline
+hardstatus string "%{= Kw}%-w%{= Gw}%n %t%{-}%+w"
+
+# Where do screen hardcopies go to?
+hardcopydir ~/.screen
 
 # Startup windows
-screen
-screen
-screen
-screen
+screen -t $     0 zsh
+screen -t $     1 zsh
+screen -t $     2 zsh
+screen -t bash  3
+#screen -t log   4 tail -f /var/log/system.log
 
 select 0
 
