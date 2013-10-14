@@ -13,6 +13,8 @@ function set_up_svn_path_trunk {
 alias sus=set_up_svn_path
 alias sust=set_up_svn_path_trunk
 
+alias svnd='(cd $SVN_ROOT > /dev/null; svn status | grep "^[MA]" | sed -e "s/^[AM][ +]*//")'
+
 
 export MY_PATH_SEP="~"
 export MUNGE_PREFIX="@"  #prefix for files that don't have a / in their path from the root
@@ -36,7 +38,7 @@ function demunge {
 }
 
 # Make sure it's a /-separated path
-function normalize {
+function fn_normalize {
   if [[ "$1" == *${MY_PATH_SEP}*  || "$1" == ${MUNGE_PREFIX}* ]]
   then
     demunge "$1"
@@ -49,6 +51,10 @@ function normalize {
 #
 # Known issues: cannot handle filenames with spaces
 function check_file {
+  if [[ -n ${ZSH_VERSION} ]]
+  then
+    setopt shwordsplit
+  fi
   DEFINE_boolean 'writeable' false 'also check whether file is writable' 'w'
   FLAGS "$@" || return 1
   eval set -- "${FLAGS_ARGV}"
@@ -75,6 +81,11 @@ function check_file {
   fi
 
   flags_reset
+
+  if [[ -n ${ZSH_VERSION} ]]
+  then
+    unsetopt shwordsplit
+  fi
 
   return ${ret}
 }
@@ -104,8 +115,8 @@ function apush () {
 function amove () {
   local op=$1
   local clean_path
-  # normalize $2 to a demunged version if necessary
-  clean_path=$(normalize "$2")
+  # fn_normalize $2 to a demunged version if necessary
+  clean_path=$(fn_normalize "$2")
 
   local local_name=$(munge $clean_path)
   local svn_full_path=${SVN_ROOT}/${clean_path}
@@ -147,9 +158,17 @@ function apulla () {
   done
 }
 
+# apull each file marked as Modified in the svn status
+function apull_svn () {
+  for i in $(svnd)
+  do
+    apull $i
+  done
+}
+
 # Diff a file: source tree v local
 function adiff() {
-  local clean_path=$(normalize $1)
+  local clean_path=$(fn_normalize $1)
 
   diff "${SVN_ROOT}/${clean_path}" "$(munge ${clean_path})"
 }
