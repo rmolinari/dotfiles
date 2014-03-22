@@ -1,7 +1,6 @@
 ;;;; STARTING CONFIGURATION
 
 ;; Initial frame size
-(when window-system (set-frame-size (selected-frame) 180 55))
 (setq inhibit-startup-message t)
 (tool-bar-mode -1)
 
@@ -30,6 +29,7 @@
 
 ;;;; APPEARANCE
 
+(when window-system (set-frame-size (selected-frame) 180 55))
 (load-theme 'wombat t)
 ;; (load-theme 'zenburn t)
 
@@ -44,7 +44,16 @@
 (setq org-log-done t)
 
 ;; iswitch: completion in buffer selection
-(iswitchb-mode 1)
+; (iswitchb-mode 1)
+
+
+;; IDO
+
+(require 'ido)
+(ido-mode t)
+(setq ido-enable-flex-matching t)
+
+(icomplete-mode t)
 
 ;; whitespace mode
 
@@ -53,29 +62,17 @@
       whitespace-line-colum 132)
 
 
-;;(require 'helm-config)
+;;;; NOTES
 
-;; icicles
+;;; Some things to try or at least think about
 
-;(setq icicle-define-alias-commands-flag nil)
-
-;(prelude-require-package 'icicles)
-;(iswitchb-default-keybindings)
-;(prelude-require-package 'icicles-iswitchb)
-
-;(icy-mode)
+;; helm
+;; icicles - too intrusive?
 
 
-;;;; PRELUDE
+;;;; CUSTOMIZATION
 
-;; Turn off things I don't like from the standard Prelude setup
-(ido-mode nil)
-(electric-pair-mode -1)
 (custom-set-variables
-
-
-;;;; Customization
-
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
