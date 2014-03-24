@@ -34,6 +34,25 @@
 ;; (load-theme 'zenburn t)
 
 
+;;;; AUCTeX
+
+;; Use mkiv
+(eval-after-load 'tex
+  '(dolist (x
+	    '(("ConTeXt" "context --once --synctex %t" TeX-run-TeX nil (context-mode) :help "Run ConTeXt once")
+	      ("ConTeXt Full" "context  --synctex %t" TeX-run-TeX nil (context-mode) :help "Run ConTeXt until completion")))
+     (add-to-list 'TeX-command-list x)))
+
+;; http://www.stefanom.org/setting-up-a-nice-auctex-environment-on-mac-os-x/
+;; use Skim as default pdf viewer
+;; Skim's displayline is used for forward search (from .tex to .pdf)
+;; option -b highlights the current line; option -g opens Skim in the background  
+(setq TeX-view-program-selection '((output-pdf "PDF Viewer"))
+      TeX-view-program-list '(("PDF Viewer" "/Applications/Skim.app/Contents/SharedSupport/displayline -b %n %o %b")))
+
+(setq TeX-source-correlate-method 'synctex)
+
+
 ;;;; MODES
 
 ;; Org mode
@@ -68,6 +87,11 @@
 
 ;; helm
 ;; icicles - too intrusive?
+
+
+;;;; LAST THINGS
+
+(server-start)
 
 
 ;;;; CUSTOMIZATION
