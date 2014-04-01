@@ -52,6 +52,11 @@
 
 (setq TeX-source-correlate-method 'synctex)
 
+;; General TeX mode stuff
+(setq font-latex-fontify-script nil ; don't set super and subscript stuff in smaller raised/lowered face
+      TeX-electric-sub-and-superscript t  ; automatically insert {} when entering sub/superscripts
+)
+
 
 ;;;; MODES
 
