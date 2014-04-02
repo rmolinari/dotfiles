@@ -54,8 +54,100 @@
 
 ;; General TeX mode stuff
 (setq font-latex-fontify-script nil ; don't set super and subscript stuff in smaller raised/lowered face
-      TeX-electric-sub-and-superscript t  ; automatically insert {} when entering sub/superscripts
+      fill-column 132
 )
+
+;;; Much more configuration, from http://wiki.contextgarden.net/AUCTeX
+
+;;; Sanjoy Mahajan (sanjoy@mrao.cam.ac.uk), 2006-04-20.  No copyright.
+;;;
+;;; With recent AUCTeX (11.50 or later), editing ConTeXt files should
+;;; just work, but I use the following elisp as well.
+
+; the AUCTeX manual recommends these settings
+(setq TeX-parse-self t)			; Enable parse on load.
+(setq TeX-auto-save t)			; Enable parse on save.
+
+; for outline views (hide/show sections, chapters, etc.)
+(add-hook 'TeX-mode-hook '(lambda () (TeX-fold-mode 1)))
+(add-hook 'TeX-mode-hook '(lambda () (outline-minor-mode 1)))
+; make PDF by default (can toggle with C-c C-t C-p
+(add-hook 'TeX-mode-hook '(lambda () (TeX-PDF-mode 1)))
+; these math abbrevs (` as prefix char) are also useful in TeX/ConTeXt files
+(add-hook 'TeX-mode-hook 'LaTeX-math-mode)
+; Emacs help for \label, \ref, \cite.  Normally used only with
+; LaTeX-mode but also useful with plain TeX + eplain and with ConTeXt, so:
+(setq reftex-plug-into-AUCTeX t)
+(add-hook 'TeX-mode-hook 'reftex-mode)
+
+(defun insert-balanced (left right)
+  "Insert a left, right delmiter pair and be poised to type inside them."
+  (interactive)
+  (insert left)
+  (save-excursion
+    (insert right)))
+
+; When start-context-math() is bound to $:
+; Typing one $ gets you $$ with the insertion point between them.
+; Typing a second $ turns the $$ into ConTeXt's form for displayed math:
+;
+;   \placeformula\startformula
+;   [blank line with insertion point at beginning]
+;   \stopformula
+;
+; Delete the \placeformula if you don't want equations numbered automatically.
+
+(defun start-context-math ()
+  (interactive)
+  (let* ((start (max (point-min) (- (point) 1)))
+	 (stop  (min (point-max) (+ (point) 1))))
+					; if in the middle of a $$, turn inline math into context display math
+    (if (equal "$$" (buffer-substring-no-properties start stop))
+	(progn
+	  (delete-region start stop)	;get rid of the $$
+	  ; delete preceding spaces, if any
+	  (while (and (< (point-min) (point))
+		      (equal (buffer-substring-no-properties (- (point) 1)
+							     (point))
+			     " "))
+	    (backward-delete-char 1))
+	  ; delete a preceding newline, if any
+	  (if (equal (buffer-substring-no-properties (- (point) 1)
+						     (point))
+		     "\n")
+	      (backward-delete-char 1))
+	  ; ConTeXt's display math with automatic equation numbering
+	  ;;(insert "\n\\placeformula\\startformula\n")
+	  (insert "\n\\startformula\n")
+	  (save-excursion (insert "\n\\stopformula")))
+      ; else: just doing inline math
+      (insert-balanced ?\$ ?\$))))
+
+; automatically insert right delimiter for $, {, [, and ( and be
+; poised to type inside them.
+(add-hook 'TeX-mode-hook
+	  '(lambda ()
+	     (local-set-key "$" 
+			    '(lambda ()
+			       (interactive)
+			       (insert-balanced ?\$ ?\$)))
+	     (local-set-key "{"
+			    '(lambda ()
+			       (interactive)
+			       (insert-balanced ?\{ ?\})))
+	     (local-set-key "["
+			    '(lambda ()
+			       (interactive)
+			       (insert-balanced ?\[ ?\])))
+	     (local-set-key "("
+			    '(lambda ()
+			       (interactive)
+			       (insert-balanced ?\( ?\))))))
+
+; For ConTeXt mode, inserting two $ signs needs to behave specially
+(add-hook 'ConTeXt-mode-hook
+	  '(lambda ()
+	     (local-set-key "$" 'start-context-math)))
 
 
 ;;;; MODES
