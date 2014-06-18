@@ -8,3 +8,10 @@
 	default = simple
 [color]
 	ui = true
+[alias]
+	lg = log --all --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+	files = diff-tree --no-commit-id --name-only -r
+	st = status
+	br = branch
+	co = checkout
+	sup = submodule
