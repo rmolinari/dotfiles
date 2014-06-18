@@ -1,0 +1,60 @@
+## -*- mode: shell-script -*-
+
+######################################################################
+# Cross-machine .bashrc
+
+function __log_msg {
+  if [[ $VERBOSE = 1 ]]; then
+    echo $1
+  fi
+}
+
+__log_msg "Entering bashrc-common"
+
+######################################################################
+# Get directory containing this file
+# (This trick was found online.  It won't resolve symlinks.)
+pushd $(dirname ${BASH_SOURCE[0]}) > /dev/null
+SCRIPT_DIR=$PWD
+popd > /dev/null
+
+######################################################################
+## Shell options
+
+__log_msg "Setting sh options..."
+
+shopt -s cdspell  2>/dev/null
+shopt -s dirspell 2>/dev/null
+shopt -s dotglob  2>/dev/null
+shopt -s globstar 2>/dev/null
+
+######################################################################
+# Aliases and simple functions
+
+# Get rid of color
+unalias ls 2> /dev/null
+
+function npath {
+  echo $PATH | tr ":" "\n"
+}
+
+#
+# Silliness to pass path to sudo
+function mysudo
+{
+  sudo PATH=$PATH $*
+}
+
+
+######################################################################
+# Path
+
+export PATH=${HOME}/bin:$PATH
+
+
+######################################################################
+# Shell appearance
+
+. $SCRIPT_DIR/prompt
+
+unset SCRIPT_DIR

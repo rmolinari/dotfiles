@@ -1,0 +1,24 @@
+##
+# Remember the DISPLAY variable
+#
+# Courtesy of Thomas Koeler
+
+FILE_NAME=${HOME}/.environment
+
+# Make zero length...
+: > ${FILE_NAME}
+
+function remember_rbm
+{
+    if [ -z "${!1}" ]
+    then
+        echo "Can't update X11 $1 variable as \$$1 is not set..."
+    else
+        echo "export $1=${!1}" >> ${FILE_NAME}
+    fi
+}
+
+remember_rbm DISPLAY
+remember_rbm DBUS_SESSION_BUS_ADDRESS
+
+unset -f remember_rbm

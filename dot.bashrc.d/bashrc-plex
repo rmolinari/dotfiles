@@ -1,0 +1,220 @@
+## -*- mode: shell-script -*-
+
+######################################################################
+# Set up for my Plex environment
+
+# Get directory containing this file
+# (This trick was found online.  It won't resolve symlinks.)
+pushd $(dirname ${BASH_SOURCE[0]}) > /dev/null
+SCRIPT_DIR=$PWD
+popd > /dev/null
+
+
+# Use shflags
+. ${SCRIPT_DIR}/shflags
+
+##
+# Aliases
+
+export VAULT_ROOT=/d/Development/Classic/POL_Local
+export VR=${VAULT_ROOT}
+
+alias cdw="cd $VAULT_ROOT"
+alias cdr="cd /d/Development/DotNet/RenderingModules"
+alias open=cygstart
+
+function sless ()
+{
+    iconv -f utf-16le -t utf-8 $1 | less
+}
+
+##
+# Pushing and pulling files from the Vault source tree
+# for local tracking
+export MY_PATH_SEP="~"
+
+# path helpers
+function munge   { echo $1 | tr "/"            ${MY_PATH_SEP} ; }
+function demunge { echo $1 | tr ${MY_PATH_SEP} "/"            ; }
+
+function normalize {
+  if [[ "$1" == *${MY_PATH_SEP}* ]]
+  then
+    demunge "$1"
+  else
+    echo "$1"
+  fi
+}
+
+# Check that the given file exists and is regular
+function check_file {
+  DEFINE_boolean 'writeable' false 'also check whether file is writable' 'w'
+  FLAGS "$@" || return 1
+  eval set -- "${FLAGS_ARGV}"
+
+  local ret=0
+
+  if [[ $# -eq 0 ]]
+  then
+    echo 'Error: filename missing' >&2
+    flags_help
+    ret=1
+  elif [[ ! -e "$1" ]]
+  then
+    echo $1 does not exist
+    ret=1
+  elif [[ ! -f "$1" ]]
+  then
+    echo $1 is not a regular file
+    ret=1
+  elif [[ ${FLAGS_writeable} = ${FLAGS_TRUE} && ! -w "$1" ]]
+  then
+    echo $1 is not writable
+    ret=1
+  fi
+
+  flags_reset
+
+  return ${ret}
+}
+
+# Copy a file from the source tree to the local directory.
+# The relative path of the file (from the source tree root)
+# is preserved by changing all the slashes to tildes.
+#
+# The file name can be given with either / or ~ separators
+function apull () {
+  amove pull "$1"
+}
+
+# Copy a locally managed file back to the real source tree
+#
+# The file name can be given with either / or ~ separators
+function apush () {
+  amove push "$1"
+}
+
+# Move a file to or from the real tree
+# Usage 'amove <op> path' where <op> is push or pull
+#
+# path should be relative to the source control root and
+# can be of the form dir/dir/file or dir~dir~file.
+function amove () {
+  local op=$1
+  local clean_path
+  # normalize $2 to a demunged version if necessary
+  clean_path=$(normalize "$2")
+
+  local local_name=$(munge $clean_path)
+  local vault_full_path=${VAULT_ROOT}/${clean_path}
+
+  local from to cf_args
+
+  case ${op} in
+    push)
+      cf_args="-w"
+      from=./${local_name}
+      to=${vault_full_path}
+      ;;
+
+    pull)
+      cf_args=""
+      from=${vault_full_path}
+      to=./${local_name}
+      ;;
+
+    *)
+      echo "amove given unknown op: $op"
+      return 1
+      ;;
+  esac
+
+  check_file ${cf_args} "${vault_full_path}" || return 1
+  cp "${from}" "${to}"
+}
+
+# Refresh all of the .asp files tracked locally by copying the latest
+# version of each one from the source tree.
+#
+# We identify locally tracked files by looking for local file names
+# with embedded tildes.
+function apulla () {
+  for file in *?~?*
+  do
+    [[ -f "$file" ]] || continue
+    echo -n ${file}...
+    apull "${file}" || (echo "Failure!"; exit 1)
+    echo ok
+  done
+}
+
+# Diff a file: source tree v local
+function adiff() {
+  local clean_path=$(normalize $1)
+
+  diff "${VAULT_ROOT}/${clean_path}" "$(munge ${clean_path})"
+}
+
+
+
+##
+# Cygwin
+
+# This allows paths like /c/Users rather than /cygwin/C/Users
+mount --change-cygdrive-prefix /
+
+# Run cron if it isn't already running
+# NOTE: this isn't working, and I can't work out why
+# (cygrunsrv -L | grep -q cron) || cygrunsrv -I cron -p /usr/sbin/cron
+
+
+##
+# Path
+
+export PATH=/usr/local/bin:/bin:/usr/bin:$PATH
+
+PROGFILES_x86="/c/Program Files (x86)"
+
+# Node.js
+export PATH=${HOME}/local/node/bin:$PATH
+
+# Haskell
+GHC_ROOT=/c/haskell/2011.2.0.1
+export PATH=${GHC_ROOT}/bin:${GHC_ROOT}/lib/extralibs/bin:$PATH
+
+# JDK
+JDK_ROOT="/c/Program Files/Java/jdk1.6.0_26"
+export PATH=${JDK_ROOT}/bin:$PATH
+
+# byobu
+BYOBU_ROOT="${HOME}/local/byobu"
+export PATH=${BYOBU_ROOT}/bin:$PATH
+
+# ant
+export ANT_HOME="${PROGFILES_x86}/apache-ant-1.8.2"
+export PATH=${ANT_HOME}/bin:$PATH
+
+# racket
+RACKET_HOME="${PROGFILES_x86}/Racket"
+export PATH=${RACKET_HOME}:$PATH
+
+
+##
+# Toys, etc
+
+# ClojureScript
+export CLOJURESCRIPT_HOME=${HOME}/tools/clojurescript
+export PATH=${CLOJURESCRIPT_HOME}/bin:$PATH
+
+
+######################################################################
+# Cross-machine setup
+
+VERBOSE=0
+
+
+BASHRC_COMMON=$SCRIPT_DIR/bashrc-common
+
+if [[ -f $BASHRC_COMMON ]]; then
+  . $BASHRC_COMMON
+fi

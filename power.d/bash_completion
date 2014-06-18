@@ -1,0 +1,40 @@
+## -*- mode: shell-script -*-
+
+# Simple completion assistance to help with paths relative to $SVN_ROOT
+#
+# This works (sort of).  Why is it so complicated?
+#
+# Some of the many issues that I had:
+#
+# - It took many hours of experimenting to get this working, mainly because I
+#   couldn't get compgen and complete to put trailing slashes on directory names.
+#   I tried many different things without luck.  After poking around for a while
+#   in /usr/local/etc/bash_completion.d I had a few more ideas and came up with
+#   what follows.
+#
+# TODO: also complete against files in the current directory (which are expected to
+#       be the tilde-separated ones.)
+#
+_pushpull()
+{
+  shopt -s extglob
+  local cur dirs files findpath match_prefix saveIFS
+
+  # Allow for spaces in filenames
+  saveIFS=$IFS
+  IFS=$'\n'
+
+  COMPREPLY=()
+  cur="${COMP_WORDS[COMP_CWORD]}"
+
+  # compgen finds the files
+  # ls -pd makes sure there are trailing slashes on the directories
+  # sed strips off the SVN_ROOT prefix
+  files=$(ls -pd $(compgen -f "${SVN_ROOT}/${cur}") | sed -E -e "s|^${SVN_ROOT}/?||")
+
+  COMPREPLY=($(compgen -W "${files}" -- ${cur}))
+
+  IFS=${saveIFS}
+}
+
+complete -o nospace -o filenames -F _pushpull apull apush

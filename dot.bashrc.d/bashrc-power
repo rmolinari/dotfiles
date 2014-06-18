@@ -1,0 +1,108 @@
+## -*- mode: shell-script -*-
+
+######################################################################
+# Set up for my Power Auctions environment
+
+# Get directory containing this file
+# (This trick was found online.  It won't resolve symlinks.)
+pushd $(dirname ${BASH_SOURCE[0]}) > /dev/null
+SCRIPT_DIR=$PWD
+popd > /dev/null
+
+# Use shflags
+. ${SCRIPT_DIR}/shflags
+
+##
+# Aliases
+##
+alias ss="svn status"
+
+##
+# INFOPATH
+##
+export INFOPATH=/Applications/Emacs.app/Contents/Resources/info:/usr/share/info
+
+##
+# Include other PA-specific files
+##
+PA_INCL_DIR=${SCRIPT_DIR}/power.d
+_incl_file()
+{
+  local f
+  f=${PA_INCL_DIR}/$1
+  if [[ -f ${f} ]]
+  then
+    . ${f}
+  else
+    echo "In bashrc-power: ${f} does not exist"
+  fi
+}
+
+_incl_file push-pull
+_incl_file bash_completion
+
+unset -f _incl_file
+
+##
+# Projects
+##
+
+# sust and sus are defined in power.d/push-pull
+alias acma="sust acma"
+alias pdt="sust pdt"
+alias gtld="sust gtld"
+alias boem="sus boem"
+alias fcc="sus fcc/fccptrev"
+
+SIM_PREFIX="fcc/simulator/fcbroker/trunk"
+alias sim_all="sus ${SIM_PREFIX}"
+alias sim="sus ${SIM_PREFIX}/runalgo"
+alias broker="sus ${SIM_PREFIX}/fcbroker"
+alias daemon="sus ${SIM_PREFIX}/daemon"
+
+alias tv="sust fcc/tv"
+
+# Default is tv
+tv
+
+alias cdw='cd ${SVN_ROOT}'
+
+##
+# Path
+
+export PATH=/usr/local/sbin:/usr/local/bin:/bin:/usr/bin:$PATH
+
+##
+# RVM
+export PATH=${HOME}/.rvm/bin:${PATH}
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+
+##
+# Emacs
+
+EMACS_APP=/Applications/Emacs.app/
+EMACS_APP_MACOS=${EMACS_APP}/Contents/MacOS
+
+emacs=${EMACS_APP_MACOS}/Emacs
+
+##
+# Editor tools
+export EDITOR=emacs_d ALTERNATE_EDITOR=${emacs}
+alias e=emacs_d
+
+
+# byobu
+#BYOBU_ROOT="${HOME}/local/byobu"
+#export PATH=${BYOBU_ROOT}/bin:$PATH
+
+######################################################################
+# Cross-machine setup
+
+VERBOSE=0
+
+
+BASHRC_COMMON=$SCRIPT_DIR/bashrc-common
+
+if [[ -f $BASHRC_COMMON ]]; then
+  . $BASHRC_COMMON
+fi
