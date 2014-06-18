@@ -1,0 +1,38 @@
+# This forces screen to start a login shell, so it
+# doesn't lose the stuff from .bash_profile
+#shell -$SHELL
+shell -/usr/local/bin/zsh
+shelltitle "$"
+
+startup_message off
+
+defscrollback 5000
+# Partial support for scrollback without entering copy mode.
+# The mouse wheel is usable, though switching windows screws things
+# up.
+termcapinfo xterm* ti@:te@
+
+# List the windows at the bottom of the screen, with the current window
+# highlighted in green
+hardstatus alwayslastline
+hardstatus string "%{= Kw}%-w%{= Gw}%n %t%{-}%+w"
+
+# Where do screen hardcopies go to?
+hardcopydir ~/.screen
+
+# Startup windows
+screen -t $     0
+screen -t $     1
+screen -t $     2
+screen -t redis  3
+screen -t $     4
+screen -t $     5
+screen -t $     6
+#screen -t log   9 tail -f /var/log/system.log
+
+select 0
+
+
+# Keybindings
+
+escape ``
