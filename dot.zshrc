@@ -64,11 +64,19 @@ bindkey -M menuselect "^o" accept-and-infer-next-history
 
 ######################################################################
 # Prompt, based on my bash prompt
-local BASE=green
+
+# Colors.  Note: numeric values require a 256-color terminal
+local BASE=035
+local TIMER_COLOR=148
+local EXIT_VAL_COLOR=magenta
+local JOBS_COLOR=cyan
 
 # Display $2 in the color $1 and then return to BASE
+#function pcol {
+#  print "%{$fg[$1]%}$2%{$fg[${BASE}]%}"
+#}
 function pcol {
-  print "%{$fg[$1]%}$2%{$fg[${BASE}]%}"
+  print -P "%F{$1}$2%F{$BASE}"
 }
 
 # Take a seconds-count and format it as
@@ -121,12 +129,12 @@ function preexec {
 
 function precmd {
   local elapsed=$(($SECONDS - ${timer:-$SECONDS}))
-  timer_show=$(pcol yellow $(format_seconds ${elapsed}))
+  timer_show=$(pcol ${TIMER_COLOR} $(format_seconds ${elapsed}))
   unset timer
 }
 
-local exit_val="%(?..%B$(pcol magenta '\$?%b') )"
-local jobs_count="%(1j.$(pcol green 'j%j') .)"
+local exit_val="%(?..%B$(pcol ${EXIT_VAL_COLOR} '\$?%b') )"
+local jobs_count="%(1j.$(pcol ${JOBS_COLOR} 'j%j') .)"
 local prompt_status="${jobs_count}${exit_val}"
 
 # Note we just ${PWD/#${HOME}/~} in place of %~ because we don't want to see,
@@ -231,7 +239,10 @@ alias e=emacs_d
 
 ##
 # ls colors
-export LSCOLORS="cxfxgxdxbxegedabagcagc"
+
+ZENBURN_LSCOLORS="cxfxgxdxbxegedabagcagc"
+SOLARIZED_LSCOLORS="dxgxfxdxbxegedabagcagc"
+export LSCOLORS=${SOLARIZED_LSCOLORS}
 
 # The shwordsplit and FLAGS_PARENT things are due to limitations
 # of zsh's interactions with the shflags script.
