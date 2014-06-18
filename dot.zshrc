@@ -65,20 +65,6 @@ bindkey -M menuselect "^o" accept-and-infer-next-history
 ######################################################################
 # Prompt, based on my bash prompt
 
-# Colors.  Note: numeric values require a 256-color terminal
-local BASE=035
-local TIMER_COLOR=148
-local EXIT_VAL_COLOR=magenta
-local JOBS_COLOR=cyan
-
-# Display $2 in the color $1 and then return to BASE
-#function pcol {
-#  print "%{$fg[$1]%}$2%{$fg[${BASE}]%}"
-#}
-function pcol {
-  print -P "%F{$1}$2%F{$BASE}"
-}
-
 # Take a seconds-count and format it as
 #
 # XdYhZmWs
@@ -133,6 +119,20 @@ function precmd {
   unset timer
 }
 
+# Colors.  Note: numeric values require a 256-color terminal
+local BASE_PROMPT_COLOR=024
+local TIMER_COLOR=150
+local EXIT_VAL_COLOR=magenta
+local JOBS_COLOR=cyan
+
+# Display $2 in the color $1 and then return to BASE_PROMPT_COLOR
+#function pcol {
+#  print "%{$fg[$1]%}$2%{$fg[${BASE_PROMPT_COLOR}]%}"
+#}
+function pcol {
+  print -P "%F{$1}$2%F{$BASE_PROMPT_COLOR}"
+}
+
 local exit_val="%(?..%B$(pcol ${EXIT_VAL_COLOR} '\$?%b') )"
 local jobs_count="%(1j.$(pcol ${JOBS_COLOR} 'j%j') .)"
 local prompt_status="${jobs_count}${exit_val}"
@@ -140,8 +140,8 @@ local prompt_status="${jobs_count}${exit_val}"
 # Note we just ${PWD/#${HOME}/~} in place of %~ because we don't want to see,
 # say, ~SVN_ROOT/app as our directory.  Instead, we want ~/work/boem (or
 # whatever).
-export PROMPT="%{$fg[${BASE}]%}[\${timer_show} ${prompt_status}%n:\${PWD/#\${HOME}/~}]
-%* $ %{$reset_color%}"
+export PROMPT="%F{${BASE_PROMPT_COLOR}}[\${timer_show} ${prompt_status}%n:\${PWD/#\${HOME}/~}]
+%* $ %f"
 
 # Don't monkey with the window titles.
 # See .oh-my-zsh/lib/termsupport.zsh
@@ -241,7 +241,7 @@ alias e=emacs_d
 # ls colors
 
 ZENBURN_LSCOLORS="cxfxgxdxbxegedabagcagc"
-SOLARIZED_LSCOLORS="dxgxfxdxbxegedabagcagc"
+SOLARIZED_LSCOLORS="gxfxbEaEBxxEhEhBaDaCaD"
 export LSCOLORS=${SOLARIZED_LSCOLORS}
 
 # The shwordsplit and FLAGS_PARENT things are due to limitations

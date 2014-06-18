@@ -4,6 +4,7 @@
 	excludesfile = /Users/rory/.gitignore_global
 [user]
 	email = quokka@gmail.com
+	name = Rory Molinari
 [push]
 	default = simple
 [color]
