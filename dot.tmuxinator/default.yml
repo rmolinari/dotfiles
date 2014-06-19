@@ -40,3 +40,6 @@ windows:
         - sidekiq:
           - cd ${SVN_ROOT}
           - sidekiq
+  - monitor
+      panes:
+        - glances
