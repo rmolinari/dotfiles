@@ -1,0 +1,5 @@
+# color for file names
+--color-filename=red
+
+# CSV files
+--type-set=csv=.csv
