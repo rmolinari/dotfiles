@@ -126,9 +126,6 @@ local EXIT_VAL_COLOR=magenta
 local JOBS_COLOR=cyan
 
 # Display $2 in the color $1 and then return to BASE_PROMPT_COLOR
-#function pcol {
-#  print "%{$fg[$1]%}$2%{$fg[${BASE_PROMPT_COLOR}]%}"
-#}
 function pcol {
   print -P "%F{$1}$2%F{$BASE_PROMPT_COLOR}"
 }
@@ -140,8 +137,8 @@ local prompt_status="${jobs_count}${exit_val}"
 # Note we just ${PWD/#${HOME}/~} in place of %~ because we don't want to see,
 # say, ~SVN_ROOT/app as our directory.  Instead, we want ~/work/boem (or
 # whatever).
-export PROMPT="%F{${BASE_PROMPT_COLOR}}[\${timer_show} ${prompt_status}%n:\${PWD/#\${HOME}/~}]
-%* $ %f"
+export PROMPT='%F{${BASE_PROMPT_COLOR}}[${timer_show} ${prompt_status}%n:${PWD/#${HOME}/~}]
+%* $ %f'
 
 # Don't monkey with the window titles.
 # See .oh-my-zsh/lib/termsupport.zsh
