@@ -30,7 +30,8 @@
 ;;;; APPEARANCE
 
 (when window-system (set-frame-size (selected-frame) 180 55))
-(load-theme 'wombat t)
+(load-theme 'solarized-dark t)
+;; (load-theme 'wombat t)
 ;; (load-theme 'zenburn t)
 
 
@@ -199,6 +200,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(custom-enabled-themes (quote (wombat)))
+ '(custom-safe-themes (quote ("fc5fcb6f1f1c1bc01305694c59a1a861b008c534cae8d0e48e4d5e81ad718bc6" default)))
  '(safe-local-variable-values (quote ((eval sh-set-shell "zsh")))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
