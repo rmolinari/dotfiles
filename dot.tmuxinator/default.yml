@@ -35,11 +35,9 @@ windows:
           - cd ${SVN_ROOT}
           - job_clients localhost 6
         - aaos:
-          - cd ${SVN_ROOT}/aaos/lib/redis-client
-          - make run
+          - cd ${SVN_ROOT}
+          - aaos_clients localhost 1
         - sidekiq:
           - cd ${SVN_ROOT}
           - sidekiq
-  - monitor
-      panes:
-        - glances
+  - monitor: glances
