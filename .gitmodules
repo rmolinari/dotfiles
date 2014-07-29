@@ -1,0 +1,3 @@
+[submodule "dot.emacs.d/5732203"]
+	path = dot.emacs.d/treetop-mode
+	url = git://gist.github.com/5732203.git
