@@ -263,3 +263,5 @@ HELPDIR=/usr/local/share/zsh/helpfiles
 # z
 
 . $(brew --prefix)/etc/profile.d/z.sh
+
+export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
