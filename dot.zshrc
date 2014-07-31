@@ -145,8 +145,17 @@ export PROMPT='%F{${BASE_PROMPT_COLOR}}[${timer_show} ${prompt_status}%n:${PWD/#
 add-zsh-hook -d precmd  omz_termsupport_precmd
 add-zsh-hook -d preexec omz_termsupport_preexec
 
+###########
+# Homebrew
 
+# Open the package's home page
+function binfo {
+  open $(brew info $* | head -2 | tail -1)
+}
+
+##########
 # Aliases
+
 #alias ls="ls -F"
 alias ls="ls -FG"
 
