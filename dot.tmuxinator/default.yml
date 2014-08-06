@@ -29,15 +29,15 @@ windows:
       layout: tiled
       panes:
         - redis:
-          - cd ${SVN_ROOT}
+          - cd ${SC_ROOT}
           - redis-server-with-auth
         - satfc:
-          - cd ${SVN_ROOT}
+          - cd ${SC_ROOT}
           - job_clients localhost 6
         - aaos:
-          - cd ${SVN_ROOT}
+          - cd ${SC_ROOT}
           - aaos_clients localhost 1
         - sidekiq:
-          - cd ${SVN_ROOT}
+          - cd ${SC_ROOT}
           - sidekiq
   - monitor: glances

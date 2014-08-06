@@ -135,7 +135,7 @@ local jobs_count="%(1j.$(pcol ${JOBS_COLOR} 'j%j') .)"
 local prompt_status="${jobs_count}${exit_val}"
 
 # Note we just ${PWD/#${HOME}/~} in place of %~ because we don't want to see,
-# say, ~SVN_ROOT/app as our directory.  Instead, we want ~/work/boem (or
+# say, ~SC_ROOT/app as our directory.  Instead, we want ~/work/boem (or
 # whatever).
 export PROMPT='%F{${BASE_PROMPT_COLOR}}[${timer_show} ${prompt_status}%n:${PWD/#${HOME}/~}]
 %* $ %f'
@@ -182,7 +182,7 @@ alias -g RT="2>&1 | sed -n '1,/rake aborted/p'"
 # Pushing and pulling files from an SVN source tree
 # for local tracking.  Based on my Vault code from Plex
 function set_up_svn_path {
-    export SVN_ROOT=${HOME}/work/${1}
+    export SC_ROOT=${HOME}/work/${1}
 }
 
 function set_up_svn_path_trunk {
@@ -206,14 +206,14 @@ alias daemon="sus ${SIM_PREFIX}/daemon"
 
 alias tv="sust fcc/tv"
 
-#alias gtv="export SVN_ROOT=${HOME}/learn/git-svn/fcctv"
+#alias gtv="export SC_ROOT=${HOME}/learn/git-svn/fcctv"
 alias gtv="sus git/fcctv-sim-auction_pack"
 
 # Default is Git tv
 gtv
 
-alias cdw='cd ${SVN_ROOT}'
-alias up='(cd $SVN_ROOT/..; svn update)'
+alias cdw='cd ${SC_ROOT}'
+alias up='(cd $SC_ROOT/..; svn update)'
 
 alias cdp='cd $(pwd)'
 

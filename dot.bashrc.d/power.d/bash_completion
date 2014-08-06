@@ -1,6 +1,6 @@
 ## -*- mode: shell-script -*-
 
-# Simple completion assistance to help with paths relative to $SVN_ROOT
+# Simple completion assistance to help with paths relative to $SC_ROOT
 #
 # This works (sort of).  Why is it so complicated?
 #
@@ -29,8 +29,8 @@ _pushpull()
 
   # compgen finds the files
   # ls -pd makes sure there are trailing slashes on the directories
-  # sed strips off the SVN_ROOT prefix
-  files=$(ls -pd $(compgen -f "${SVN_ROOT}/${cur}") | sed -E -e "s|^${SVN_ROOT}/?||")
+  # sed strips off the SC_ROOT prefix
+  files=$(ls -pd $(compgen -f "${SC_ROOT}/${cur}") | sed -E -e "s|^${SC_ROOT}/?||")
 
   COMPREPLY=($(compgen -W "${files}" -- ${cur}))
 

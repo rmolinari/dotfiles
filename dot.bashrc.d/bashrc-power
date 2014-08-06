@@ -65,7 +65,7 @@ alias tv="sust fcc/tv"
 # Default is tv
 tv
 
-alias cdw='cd ${SVN_ROOT}'
+alias cdw='cd ${SC_ROOT}'
 
 ##
 # Path

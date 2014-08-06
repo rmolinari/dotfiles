@@ -7,6 +7,10 @@
 ;; Starting directory
 (setq default-directory (getenv "HOME"))
 
+;; Typeface
+(set-face-font 'default "Inconsolata\-dz-12")
+(add-to-list 'default-frame-alist
+	     '(font . "Inconsolata\-dz-12"))
 
 ;;;; INIT FILE
 

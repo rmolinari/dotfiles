@@ -3,7 +3,7 @@
 # Pushing and pulling files from an SVN source tree
 # for local tracking.  Based on my Vault code from Plex
 function set_up_svn_path {
-    export SVN_ROOT=${HOME}/work/${1}
+    export SC_ROOT=${HOME}/work/${1}
 }
 
 function set_up_svn_path_trunk {
@@ -13,7 +13,7 @@ function set_up_svn_path_trunk {
 alias sus=set_up_svn_path
 alias sust=set_up_svn_path_trunk
 
-alias svnd='(cd $SVN_ROOT > /dev/null; svn status | grep "^[MA]" | sed -e "s/^[AM][ +]*//")'
+alias svnd='(cd $SC_ROOT > /dev/null; svn status | grep "^[MA]" | sed -e "s/^[AM][ +]*//")'
 
 
 export MY_PATH_SEP="~"
@@ -119,7 +119,7 @@ function amove () {
   clean_path=$(fn_normalize "$2")
 
   local local_name=$(munge $clean_path)
-  local svn_full_path=${SVN_ROOT}/${clean_path}
+  local svn_full_path=${SC_ROOT}/${clean_path}
 
   local from to cf_args
 
@@ -170,5 +170,5 @@ function apull_svn () {
 function adiff() {
   local clean_path=$(fn_normalize $1)
 
-  diff "${SVN_ROOT}/${clean_path}" "$(munge ${clean_path})"
+  diff "${SC_ROOT}/${clean_path}" "$(munge ${clean_path})"
 }
