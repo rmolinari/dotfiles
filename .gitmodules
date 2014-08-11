@@ -1,3 +1,6 @@
 [submodule "dot.emacs.d/5732203"]
 	path = dot.emacs.d/treetop-mode
 	url = git://gist.github.com/5732203.git
+[submodule "dot.emacs.d/gmail2bbdb"]
+	path = dot.emacs.d/gmail2bbdb
+	url = https://github.com/redguardtoo/gmail2bbdb

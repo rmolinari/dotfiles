@@ -150,7 +150,9 @@ add-zsh-hook -d preexec omz_termsupport_preexec
 
 # Open the package's home page
 function binfo {
-  open $(brew info $* | head -2 | tail -1)
+  for i in $*; do
+    open $(brew info ${i} | head -2 | tail -1)
+  done
 }
 
 ##########
@@ -205,12 +207,11 @@ alias broker="sus ${SIM_PREFIX}/fcbroker"
 alias daemon="sus ${SIM_PREFIX}/daemon"
 
 alias tv="sust fcc/tv"
-
-#alias gtv="export SC_ROOT=${HOME}/learn/git-svn/fcctv"
 alias gtv="sus git/fcctv-sim-auction_pack"
+alias tvp="sus git/fcctv-prototype"
 
-# Default is Git tv
-gtv
+# Default is TV prototype
+tvp
 
 alias cdw='cd ${SC_ROOT}'
 alias up='(cd $SC_ROOT/..; svn update)'

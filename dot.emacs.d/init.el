@@ -30,7 +30,6 @@
   (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
   )
 
-
 ;;;; APPEARANCE
 
 (blink-cursor-mode -1)
@@ -194,6 +193,11 @@
       whitespace-style '(face lines-tail trailing)
       whitespace-line-colum 132)
 
+
+;;; Others
+
+(add-to-list 'load-path "~/.emacs.d/gmail2bbdb")
+(autoload 'gmail2bbdb-import-file "gmail2bbdb")
 
 ;;;; NOTES
 
