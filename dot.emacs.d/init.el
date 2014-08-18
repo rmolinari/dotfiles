@@ -158,6 +158,13 @@
 
 ;;;; MODES
 
+;; Gnus
+(setq gnus-init-file "~/.emacs.d/gnus.el")
+
+;; BBDB
+(eval-after-load 'bbdb
+  '(define-key bbdb-mode-map "r" 'bbdb-merge-records))
+
 ;; Org mode
 (require 'org)
 (add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
@@ -196,6 +203,11 @@
 
 ;;; Others
 
+;; Convert vcf contacts file to bbdb format.  See https://github.com/redguardtoo/gmail2bbdb
+;;
+;; Example usage:
+;;
+;;  (gmail2bbdb-import-file "~/Downloads/contacts.vcf")
 (add-to-list 'load-path "~/.emacs.d/gmail2bbdb")
 (autoload 'gmail2bbdb-import-file "gmail2bbdb")
 
@@ -222,6 +234,7 @@
  '(background-color "#002b36")
  '(background-mode dark)
  '(blink-cursor-mode nil)
+ '(canlock-password "504835d1a2afc6972fc882e1ebb6ca7fc31f83f5")
  '(cursor-color "#839496")
  '(custom-enabled-themes (quote (wombat)))
  '(custom-safe-themes (quote ("fc5fcb6f1f1c1bc01305694c59a1a861b008c534cae8d0e48e4d5e81ad718bc6" default)))
