@@ -30,7 +30,7 @@ windows:
       panes:
         - redis:
           - cd ${SC_ROOT}
-          - redis-server-with-auth
+          - redis-server
         - satfc:
           - cd ${SC_ROOT}
           - job_clients localhost 6
