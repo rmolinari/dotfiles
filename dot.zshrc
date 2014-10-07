@@ -211,8 +211,8 @@ alias gtv="sus git/fcctv-sim-auction_pack"
 alias tvp="sus git/fcctv-prototype"
 alias tvr="sus git/fcctv-reverse"
 
-# Default is TV prototype
-tvp
+# Default is TV reverse
+tvr
 
 alias cdw='cd ${SC_ROOT}'
 alias up='(cd $SC_ROOT/..; svn update)'
