@@ -26,18 +26,18 @@ windows:
   - zsh:
   - zsh:
   - servers:
-      layout: tiled
+      layout: main-horizontal
       panes:
+        - sidekiq:
+          - cd ${SC_ROOT}
+          - sidekiq
         - redis:
           - cd ${SC_ROOT}
           - redis-server
         - satfc:
           - cd ${SC_ROOT}
           - job_clients localhost 6
-        - aaos:
+        - redis-cli:
           - cd ${SC_ROOT}
-          - aaos_clients localhost 1
-        - sidekiq:
-          - cd ${SC_ROOT}
-          - sidekiq
+          - redis-cli
   - monitor: glances

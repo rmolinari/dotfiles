@@ -209,6 +209,7 @@ alias daemon="sus ${SIM_PREFIX}/daemon"
 alias tv="sust fcc/tv"
 alias gtv="sus git/fcctv-sim-auction_pack"
 alias tvp="sus git/fcctv-prototype"
+alias tvr="sus git/fcctv-reverse"
 
 # Default is TV prototype
 tvp
@@ -276,3 +277,9 @@ HELPDIR=/usr/local/share/zsh/helpfiles
 
 export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
 source ~/.fzf.zsh
+
+
+# ooc / rock
+
+export OOC_LIBS=~/lib/ooc
+export PATH=${PATH}:${HOME}/lib/ooc/sam
