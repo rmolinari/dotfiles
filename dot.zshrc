@@ -142,6 +142,7 @@ export PROMPT='%F{${BASE_PROMPT_COLOR}}[${timer_show} ${prompt_status}%n:${PWD/#
 
 # Don't monkey with the window titles.
 # See .oh-my-zsh/lib/termsupport.zsh
+autoload -U add-zsh-hook
 add-zsh-hook -d precmd  omz_termsupport_precmd
 add-zsh-hook -d preexec omz_termsupport_preexec
 
@@ -276,10 +277,24 @@ HELPDIR=/usr/local/share/zsh/helpfiles
 . $(brew --prefix)/etc/profile.d/z.sh
 
 export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
+
+# Fuzzy completions
 source ~/.fzf.zsh
+bindkey '^x^t' fzf-file-widget
+bindkey '^t' transpose-chars
 
 
 # ooc / rock
 
 export OOC_LIBS=~/lib/ooc
 export PATH=${PATH}:${HOME}/lib/ooc/sam
+
+################
+# Miscellaneous
+
+export SIMULATOR_ID=localhost
+
+# Instructed by the 5.0.7 install
+unalias run-help 2>/dev/null
+autoload run-help
+HELPDIR=/usr/local/share/zsh/help

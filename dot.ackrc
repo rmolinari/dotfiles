@@ -3,3 +3,6 @@
 
 # CSV files
 --type-set=csv=.csv
+
+# HAML files
+--type-set=haml=.haml
