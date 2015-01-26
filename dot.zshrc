@@ -46,9 +46,6 @@ source $ZSH/oh-my-zsh.sh
 ## My stuff follows
 ##
 
-## RVM
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
-
 
 ######################################################################
 # Completion
@@ -298,3 +295,7 @@ export SIMULATOR_ID=localhost
 unalias run-help 2>/dev/null
 autoload run-help
 HELPDIR=/usr/local/share/zsh/help
+
+
+## RVM
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
