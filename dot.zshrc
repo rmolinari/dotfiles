@@ -3,6 +3,8 @@
 # Path to your oh-my-zsh configuration.
 ZSH=$HOME/.oh-my-zsh
 
+source $HOME/.profile
+
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
 # Optionally, if you set this to "random", it'll load a random theme each
@@ -39,16 +41,15 @@ source $ZSH/oh-my-zsh.sh
 
 # Customize to your needs...
 
-
-
 ######################################################################
 ######################################################################
 ## My stuff follows
 ##
 
-
 ######################################################################
 # Completion
+fpath=(/usr/local/share/zsh-completions $fpath)
+
 autoload -U compinit
 compinit
 
@@ -221,14 +222,6 @@ alias cdp='cd $(pwd)'
 # Path
 export PATH=/Users/rory/bin:/usr/local/sbin:/usr/local/bin:/usr/local/share/npm/bin:/bin:/usr/bin:/usr/sbin:/sbin:{HOME}/.rvm/bin:${PATH}:~/games/chess/scid_resources/Contents/MacOS:.
 
-# ruby gems
-
-# How useful is this, tied to a specific version?  I think rvm takes care
-# of this stuff
-#export PATH=/usr/local/Cellar/ruby/1.9.3-p286/bin:$PATH
-
-#export PATH=/usr/local/opt/ruby/bin:$PATH
-
 ##
 # Emacs
 
@@ -241,7 +234,6 @@ emacs=${EMACS_APP_MACOS}/Emacs
 # Editor tools
 export EDITOR=emacs_d ALTERNATE_EDITOR=${emacs}
 alias e=emacs_d
-
 
 ##
 # ls colors
@@ -260,12 +252,10 @@ FLAGS_PARENT=$0
 . ${HOME}/.bashrc.d/power.d/push-pull
 unsetopt shwordsplit
 
-
 # As directed by the 5.0.5 install script
 unalias run-help
 autoload run-help
 HELPDIR=/usr/local/share/zsh/helpfiles
-
 
 # Other command line tools
 
@@ -273,13 +263,10 @@ HELPDIR=/usr/local/share/zsh/helpfiles
 
 . $(brew --prefix)/etc/profile.d/z.sh
 
-export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
-
 # Fuzzy completions
 source ~/.fzf.zsh
 bindkey '^x^t' fzf-file-widget
 bindkey '^t' transpose-chars
-
 
 # ooc / rock
 
@@ -296,6 +283,13 @@ unalias run-help 2>/dev/null
 autoload run-help
 HELPDIR=/usr/local/share/zsh/help
 
-
 ## RVM
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+
+export PATH="$PATH:$HOME/.rvm/bin"
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
+
+## Helpers
+
+function gsdiff {
+    sdiff -w 200 <(egrep $1 $2) <(egrep $1 $3) | less
+}
