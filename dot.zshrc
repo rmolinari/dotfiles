@@ -218,6 +218,8 @@ alias up='(cd $SC_ROOT/..; svn update)'
 
 alias cdp='cd $(pwd)'
 
+alias fuck='eval $(thefuck $(fc -ln -1 | tail -n 1)); fc -R'
+
 ##
 # Path
 export PATH=/Users/rory/bin:/usr/local/sbin:/usr/local/bin:/usr/local/share/npm/bin:/bin:/usr/bin:/usr/sbin:/sbin:{HOME}/.rvm/bin:${PATH}:~/games/chess/scid_resources/Contents/MacOS:.
