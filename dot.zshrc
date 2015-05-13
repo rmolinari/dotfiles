@@ -263,7 +263,7 @@ HELPDIR=/usr/local/share/zsh/helpfiles
 
 # z
 
-. $(brew --prefix)/etc/profile.d/z.sh
+# . $(brew --prefix)/etc/profile.d/z.sh
 
 # Fuzzy completions
 source ~/.fzf.zsh
