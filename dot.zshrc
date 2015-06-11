@@ -150,7 +150,7 @@ add-zsh-hook -d preexec omz_termsupport_preexec
 # Open the package's home page
 function binfo {
   for i in $*; do
-    open $(brew info ${i} | head -2 | tail -1)
+    open $(brew info ${i} | grep http | head -n 1)
   done
 }
 
@@ -223,6 +223,7 @@ alias fuck='eval $(thefuck $(fc -ln -1 | tail -n 1)); fc -R'
 ##
 # Path
 export PATH=/Users/rory/bin:/usr/local/sbin:/usr/local/bin:/usr/local/share/npm/bin:/bin:/usr/bin:/usr/sbin:/sbin:{HOME}/.rvm/bin:${PATH}:~/games/chess/scid_resources/Contents/MacOS:.
+export PATH=${HOME}/tools/infer-osx-v0.1.0/infer/infer/bin:${PATH}
 
 ##
 # Emacs
