@@ -18,6 +18,8 @@ root: ~/
 # Change the command to call tmux.  This can be used by derivatives/wrappers like byobu.
 # tmux_command: byobu
 
+# NOTE: the printf statements set the title of each pane.  See http://stackoverflow.com/questions/9747952/pane-title-in-tmux
+
 windows:
   - zsh:
   - zsh:
@@ -25,19 +27,41 @@ windows:
   - zsh:
   - zsh:
   - zsh:
+  - redis:
+      layout: 1468,201x44,0,0[201x24,0,0{100x24,0,0,6,100x24,101,0,9},201x19,0,25{79x19,0,25,12,121x19,80,25[121x9,80,25,10,121x9,80,35,11]}]
+      panes:
+        - redis-monitor:
+          - printf '\033]2;%s\033\\' 'redis-monitor'
+          - cd ${SC_ROOT}
+          - sleep 5
+          - redis-cli monitor
+        - redis-satfcserver-monitor:
+          - printf '\033]2;%s\033\\' 'redis-satfcserver-monitor'
+          - cd ${SC_ROOT}
+          - sleep 5
+          - redis-cli -p 7777 monitor
+        - redis-cli:
+          - printf '\033]2;%s\033\\' 'redis-cli'
+          - cd ${SC_ROOT}
+          - sleep 5
+          - redis-cli
+        - redis:
+          - printf '\033]2;%s\033\\' 'redis'
+          - cd ${SC_ROOT}
+          - redis-server
+        - redis-satfcserver:
+          - printf '\033]2;%s\033\\' 'redis-satfcserver'
+          - cd ${SC_ROOT}
+          - redis-server --port 7777
   - servers:
       layout: main-horizontal
       panes:
-        - sidekiq:
-          - cd ${SC_ROOT}
-          - sidekiq
-        - redis:
-          - cd ${SC_ROOT}
-          - redis-server
         - satfc:
+          - printf '\033]2;%s\033\\' 'satfc'
           - cd ${SC_ROOT}
-          - job_clients localhost 6
-        - redis-cli:
+          - job_clients --job_caster_url localhost --satfc_server_url http://localhost:8080 6
+        - satfc-server:
+          - printf '\033]2;%s\033\\' 'satfc-server'
           - cd ${SC_ROOT}
-          - redis-cli
+          - java -jar fcc-station-packing/lib/SATFCServer-0.1.0.jar --redis.host=localhost --redis.port=7777
   - monitor: glances

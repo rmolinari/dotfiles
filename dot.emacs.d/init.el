@@ -12,6 +12,9 @@
 (add-to-list 'default-frame-alist
 	     '(font . "Inconsolata\-dz-12"))
 
+;; No tabs
+(setq-default indent-tabs-mode nil)
+
 ;;;; INIT FILE
 
 ;; From http://metasandwich.com/2013/01/19/emacs-config-youre-doing-it-wrong/
