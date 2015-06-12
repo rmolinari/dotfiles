@@ -182,33 +182,33 @@ alias -g RT="2>&1 | sed -n '1,/rake aborted/p'"
 
 # Pushing and pulling files from an SVN source tree
 # for local tracking.  Based on my Vault code from Plex
-function set_up_svn_path {
+function set_up_work_path {
     export SC_ROOT=${HOME}/work/${1}
 }
 
-function set_up_svn_path_trunk {
-    set_up_svn_path ${1}/trunk
+function set_up_work_path_trunk {
+    set_up_work_path ${1}/trunk
 }
 
-alias sus=set_up_svn_path
-alias sust=set_up_svn_path_trunk
+alias suwp=set_up_work_path
+alias suwt=set_up_work_path_trunk
 
-alias acma="sust acma"
-alias pdt="sust pdt"
-alias gtld="sust gtld"
-alias boem="sus boem"
-alias fcc="sus fcc/fccptrev"
-alias bhpspot="sus diamonds/spot1304"
+alias acma="suwt acma"
+alias pdt="suwt pdt"
+alias gtld="suwt gtld"
+alias boem="suwp boem"
+alias fcc="suwp fcc/fccptrev"
+alias bhpspot="suwp diamonds/spot1304"
 
 SIM_PREFIX="fcc/simulator/fcbroker/trunk"
-alias sim="sus ${SIM_PREFIX}/runalgo"
-alias broker="sus ${SIM_PREFIX}/fcbroker"
-alias daemon="sus ${SIM_PREFIX}/daemon"
+alias sim="suwp ${SIM_PREFIX}/runalgo"
+alias broker="suwp ${SIM_PREFIX}/fcbroker"
+alias daemon="suwp ${SIM_PREFIX}/daemon"
 
-alias tv="sust fcc/tv"
-alias gtv="sus git/fcctv-sim-auction_pack"
-alias tvp="sus git/fcctv-prototype"
-alias tvr="sus git/fcctv-reverse"
+alias tv="suwt fcc/tv"
+alias gtv="suwp git/fcctv-sim-auction_pack"
+alias tvp="suwp git/fcctv-prototype"
+alias tvr="suwp git/fcctv-reverse"
 
 # Default is TV reverse
 tvr
