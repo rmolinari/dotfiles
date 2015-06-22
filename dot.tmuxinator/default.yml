@@ -63,5 +63,5 @@ windows:
         - satfc-server:
           - printf '\033]2;%s\033\\' 'satfc-server'
           - cd ${SC_ROOT}
-          - java -jar fcc-station-packing/lib/SATFCServer-0.1.0.jar --redis.host=localhost --redis.port=7777
+          - fcc-station-packing/satfcserver/bin/SATFCServer --redis.host=localhost --redis.port=7777
   - monitor: glances
