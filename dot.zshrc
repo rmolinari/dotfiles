@@ -147,10 +147,10 @@ add-zsh-hook -d preexec omz_termsupport_preexec
 ###########
 # Homebrew
 
-# Open the package's home page
-function binfo {
+# Open the packages' home pages
+function bhome {
   for i in $*; do
-    open $(brew info ${i} | grep http | head -n 1)
+    brew home ${i}
   done
 }
 
@@ -275,6 +275,7 @@ bindkey '^t' transpose-chars
 
 export OOC_LIBS=~/lib/ooc
 export PATH=${PATH}:${HOME}/lib/ooc/sam
+
 
 ################
 # Miscellaneous
