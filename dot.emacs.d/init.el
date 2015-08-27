@@ -30,7 +30,7 @@
 (when (>= emacs-major-version 24)
   (require 'package)
   (package-initialize)
-  (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
+  (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
   )
 
 ;;;; APPEARANCE
@@ -188,6 +188,10 @@
 (add-to-list 'auto-mode-alist '("\\.treetop$" . treetop-mode))
 (add-to-list 'interpreter-mode-alist '("treetop" . treetop-mode))
 
+;;; Haskell
+
+(add-hook 'haskell-mode-hook 'haskell-indentation-mode)
+
 
 ;; IDO
 
@@ -240,7 +244,9 @@
  '(canlock-password "504835d1a2afc6972fc882e1ebb6ca7fc31f83f5")
  '(cursor-color "#839496")
  '(custom-enabled-themes (quote (wombat)))
- '(custom-safe-themes (quote ("fc5fcb6f1f1c1bc01305694c59a1a861b008c534cae8d0e48e4d5e81ad718bc6" default)))
+ '(custom-safe-themes
+   (quote
+    ("fc5fcb6f1f1c1bc01305694c59a1a861b008c534cae8d0e48e4d5e81ad718bc6" default)))
  '(foreground-color "#839496")
  '(safe-local-variable-values (quote ((TeX-master . t) (eval sh-set-shell "zsh"))))
  '(visible-cursor nil))
