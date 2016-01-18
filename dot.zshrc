@@ -36,7 +36,7 @@ DISABLE_LS_COLORS="true"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(brew git git-extras tmuxinator)
+plugins=(brew git git-extras tmuxinator fasd)
 source $ZSH/oh-my-zsh.sh
 
 # Customize to your needs...
@@ -280,10 +280,13 @@ bindkey '^t' transpose-chars
 # fasd
 #
 # Command line expansions
-eval "$(fasd --init auto)"
+
+#;; I've installed via oh-my-zsh
+# eval "$(fasd --init auto)"
 
 # Find the file with fasd and open with emacs_d (daemon)
 alias fe='f -e emacs_d'
+unalias v # this is aliased to use fasd to open vim
 
 ##
 # ooc / rock
