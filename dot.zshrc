@@ -282,6 +282,9 @@ bindkey '^t' transpose-chars
 # Command line expansions
 eval "$(fasd --init auto)"
 
+# Find the file with fasd and open with emacs_d (daemon)
+alias fe='f -e emacs_d'
+
 ##
 # ooc / rock
 export OOC_LIBS=~/lib/ooc
