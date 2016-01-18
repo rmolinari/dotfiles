@@ -59,9 +59,9 @@ windows:
         - satfc:
           - printf '\033]2;%s\033\\' 'satfc'
           - cd ${SC_ROOT}
-          - job_clients --job_caster_url localhost --satfc_server_url http://localhost:8080 6
+          - job_clients --job_caster_url localhost --satfc_server_url http://localhost:8080 2
         - satfc-server:
           - printf '\033]2;%s\033\\' 'satfc-server'
           - cd ${SC_ROOT}
-          - fcc-station-packing/satfcserver/bin/SATFCServer --redis.host=localhost --redis.port=7777
+          - fcc-station-packing/satfcserver/bin/SATFCServer --redis.host=localhost --redis.port=7777 --constraint.folder=./constraint_sets
   - monitor: glances

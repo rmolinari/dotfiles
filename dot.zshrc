@@ -220,6 +220,8 @@ alias cdp='cd $(pwd)'
 
 alias fuck='eval $(thefuck $(fc -ln -1 | tail -n 1)); fc -R'
 
+alias portal='cat ~/projects/FCC/deploy_notes.txt'
+
 ##
 # Path
 export PATH=/Users/rory/bin:/usr/local/sbin:/usr/local/bin:/usr/local/share/npm/bin:/bin:/usr/bin:/usr/sbin:/sbin:{HOME}/.rvm/bin:${PATH}:~/games/chess/scid_resources/Contents/MacOS:.
@@ -262,17 +264,26 @@ HELPDIR=/usr/local/share/zsh/helpfiles
 
 # Other command line tools
 
+##
 # z
-
 # . $(brew --prefix)/etc/profile.d/z.sh
 
+##
+# fzf
+#
 # Fuzzy completions
 source ~/.fzf.zsh
 bindkey '^x^t' fzf-file-widget
 bindkey '^t' transpose-chars
 
-# ooc / rock
+##
+# fasd
+#
+# Command line expansions
+eval "$(fasd --init auto)"
 
+##
+# ooc / rock
 export OOC_LIBS=~/lib/ooc
 export PATH=${PATH}:${HOME}/lib/ooc/sam
 
