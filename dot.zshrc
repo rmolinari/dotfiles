@@ -237,7 +237,7 @@ emacs=${EMACS_APP_MACOS}/Emacs
 
 ##
 # Editor tools
-export EDITOR=emacs_d ALTERNATE_EDITOR=${emacs}
+export EDITOR=emacs_d_block ALTERNATE_EDITOR=${emacs}
 alias e=emacs_d
 
 ##

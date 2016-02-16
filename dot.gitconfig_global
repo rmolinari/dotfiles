@@ -1,6 +1,6 @@
 [core]
 	# Emacs via a daemon
-	editor = emacs_d
+	editor = emacs_d_block
 	excludesfile = /Users/rory/.gitignore_global
 [user]
 	email = quokka@gmail.com
@@ -22,3 +22,5 @@
 [mergetool "sourcetree"]
 	cmd = /opt/homebrew-cask/Caskroom/sourcetree/2.1/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
 	trustExitCode = true
+[merge]
+	conflictstyle = diff3
