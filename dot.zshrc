@@ -121,15 +121,15 @@ function precmd {
 local BASE_PROMPT_COLOR=024
 local TIMER_COLOR=150
 local EXIT_VAL_COLOR=magenta
-local JOBS_COLOR=cyan
+local JOB_COUNT_COLOR=cyan
 
 # Display $2 in the color $1 and then return to BASE_PROMPT_COLOR
 function pcol {
   print -P "%F{$1}$2%F{$BASE_PROMPT_COLOR}"
 }
 
-local exit_val="%(?..%B$(pcol ${EXIT_VAL_COLOR} '\$?%b') )"
-local jobs_count="%(1j.$(pcol ${JOBS_COLOR} 'j%j') .)"
+local exit_val="%(?..%B%F{${EXIT_VAL_COLOR}}%?%f%b )"
+local jobs_count="%(1j.%F{${JOB_COUNT_COLOR}}j%j%f .)"
 local prompt_status="${jobs_count}${exit_val}"
 
 # Note we just ${PWD/#${HOME}/~} in place of %~ because we don't want to see,
