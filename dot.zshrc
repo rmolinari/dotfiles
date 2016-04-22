@@ -111,6 +111,10 @@ function preexec {
   timer=$SECONDS
 }
 
+# Display $2 in the color $1 and then return to BASE_PROMPT_COLOR
+function pcol {
+  print -P "%F{$1}$2%F{$BASE_PROMPT_COLOR}"
+}
 function precmd {
   local elapsed=$(($SECONDS - ${timer:-$SECONDS}))
   timer_show=$(pcol ${TIMER_COLOR} $(format_seconds ${elapsed}))
@@ -123,19 +127,11 @@ local TIMER_COLOR=150
 local EXIT_VAL_COLOR=magenta
 local JOB_COUNT_COLOR=cyan
 
-# Display $2 in the color $1 and then return to BASE_PROMPT_COLOR
-function pcol {
-  print -P "%F{$1}$2%F{$BASE_PROMPT_COLOR}"
-}
-
-local exit_val="%(?..%B%F{${EXIT_VAL_COLOR}}%?%f%b )"
-local jobs_count="%(1j.%F{${JOB_COUNT_COLOR}}j%j%f .)"
+local exit_val="%(?..%F{${EXIT_VAL_COLOR}}%?%F{${BASE_PROMPT_COLOR}} )"
+local jobs_count="%(1j.%F{${JOB_COUNT_COLOR}}j%j%F{${BASE_PROMPT_COLOR}} .)"
 local prompt_status="${jobs_count}${exit_val}"
 
-# Note we just ${PWD/#${HOME}/~} in place of %~ because we don't want to see,
-# say, ~SC_ROOT/app as our directory.  Instead, we want ~/work/boem (or
-# whatever).
-export PROMPT='%F{${BASE_PROMPT_COLOR}}[${timer_show} ${prompt_status}%n:${PWD/#${HOME}/~}]
+export PROMPT='%F{${BASE_PROMPT_COLOR}}[${timer_show} ${prompt_status}%n:%~]
 %* $ %f'
 
 # Don't monkey with the window titles.
