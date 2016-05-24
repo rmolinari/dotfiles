@@ -225,6 +225,36 @@
 ;; helm
 ;; icicles - too intrusive?
 
+;;; Rust setup
+;; Based on https://bassam.co/emacs/2015/08/24/rust-with-emacs/
+;; Enable company globally for all mode
+(global-company-mode)
+
+(setq company-idle-delay 0.2            ;; Reduce the time after which the company auto completion popup opens
+      company-minimum-prefix-length 1   ;; Reduce the number of characters before company kicks in
+      racer-cmd "/Users/rory/bin/racer" ;; Set path to racer binary
+      racer-rust-src-path "/Users/rory/.rust/src/" ;; Set path to rust src directory
+      )
+
+;; Load rust-mode when you open `.rs` files
+(add-to-list 'auto-mode-alist '("\\.rs\\'" . rust-mode))
+
+;; Setting up configurations when you load rust-mode
+(add-hook 'rust-mode-hook
+     '(lambda ()
+        ;; Enable racer
+        (racer-activate)
+        ;; Hook in racer with eldoc to provide documentation
+        (racer-turn-on-eldoc)
+        ;; Use flycheck-rust in rust-mode
+        (add-hook 'flycheck-mode-hook #'flycheck-rust-setup)
+        ;; Use company-racer in rust mode
+        (set (make-local-variable 'company-backends) '(company-racer))
+        ;; Key binding to jump to method definition
+        (local-set-key (kbd "M-.") #'racer-find-definition)
+        ;; Key binding to auto complete and indent
+        (local-set-key (kbd "TAB") #'racer-complete-or-indent)))
+
 
 ;;;; LAST THINGS
 

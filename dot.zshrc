@@ -258,6 +258,9 @@ unalias run-help
 autoload run-help
 HELPDIR=/usr/local/share/zsh/helpfiles
 
+# Rust tools
+export RUST_SRC_PATH=${HOME}/.rust/src
+
 # Other command line tools
 
 ##
