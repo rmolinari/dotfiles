@@ -176,8 +176,6 @@ alias -g RR="2>&1 | egrep 'assertions|^[A-Za-z]*Test$|FAIL |ERROR '"
 # Rake test is currently spitting out its own failure stacktrace for me. This removes it
 alias -g RT="2>&1 | sed -n '1,/rake aborted/p'"
 
-# Pushing and pulling files from an SVN source tree
-# for local tracking.  Based on my Vault code from Plex
 function set_up_work_path {
     export SC_ROOT=${HOME}/work/${1}
 }
@@ -189,21 +187,7 @@ function set_up_work_path_trunk {
 alias suwp=set_up_work_path
 alias suwt=set_up_work_path_trunk
 
-alias acma="suwt acma"
-alias pdt="suwt pdt"
-alias gtld="suwt gtld"
-alias boem="suwp boem"
-alias fcc="suwp fcc/fccptrev"
-alias bhpspot="suwp diamonds/spot1304"
-
-SIM_PREFIX="fcc/simulator/fcbroker/trunk"
-alias sim="suwp ${SIM_PREFIX}/runalgo"
-alias broker="suwp ${SIM_PREFIX}/fcbroker"
-alias daemon="suwp ${SIM_PREFIX}/daemon"
-
-alias tv="suwt fcc/tv"
-alias gtv="suwp git/fcctv-sim-auction_pack"
-alias tvp="suwp git/fcctv-prototype"
+alias boem="suwp svn/boem"
 alias tvr="suwp git/fcctv-reverse"
 
 # Default is TV reverse
@@ -215,6 +199,8 @@ alias up='(cd $SC_ROOT/..; svn update)'
 alias cdp='cd $(pwd)'
 
 alias fuck='eval $(thefuck $(fc -ln -1 | tail -n 1)); fc -R'
+
+alias pe=path-extractor
 
 alias portal='cat ~/projects/FCC/deploy_notes.txt'
 
@@ -254,7 +240,7 @@ FLAGS_PARENT=$0
 unsetopt shwordsplit
 
 # As directed by the 5.0.5 install script
-unalias run-help
+unalias run-help &>/dev/null
 autoload run-help
 HELPDIR=/usr/local/share/zsh/helpfiles
 
@@ -313,3 +299,6 @@ export PATH="$PATH:$HOME/.rvm/bin"
 function gsdiff {
     sdiff -w 200 <(egrep $1 $2) <(egrep $1 $3) | less
 }
+
+## Node
+export PATH="$PATH:./node_modules/.bin"
