@@ -187,7 +187,7 @@ function set_up_work_path_trunk {
 alias suwp=set_up_work_path
 alias suwt=set_up_work_path_trunk
 
-alias boem="suwp svn/boem"
+alias boem="suwp git/boem"
 alias tvr="suwp git/fcctv-reverse"
 
 # Default is TV reverse
@@ -203,6 +203,7 @@ alias fuck='eval $(thefuck $(fc -ln -1 | tail -n 1)); fc -R'
 alias pe=path-extractor
 
 alias portal='cat ~/projects/FCC/deploy_notes.txt'
+alias boem_portal='cat ~/projects/boem/deploy_notes.txt'
 
 ##
 # Path
