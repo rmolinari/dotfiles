@@ -140,6 +140,10 @@ autoload -U add-zsh-hook
 add-zsh-hook -d precmd  omz_termsupport_precmd
 add-zsh-hook -d preexec omz_termsupport_preexec
 
+# git information in prompt. Actually RPROMPT for now
+source "/usr/local/opt/zsh-git-prompt/zshrc.sh"
+export RPROMPT='$(git_super_status)'
+
 ###########
 # Homebrew
 
@@ -188,6 +192,7 @@ alias suwp=set_up_work_path
 alias suwt=set_up_work_path_trunk
 
 alias boem="suwp git/boem"
+alias abs="suwp git/fcc-smra"
 alias tvr="suwp git/fcctv-reverse"
 
 # Default is TV reverse
