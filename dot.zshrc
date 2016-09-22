@@ -1,7 +1,7 @@
 # -*- mode: sh; eval: (sh-set-shell "zsh") -*-
 
 # Path to your oh-my-zsh configuration.
-ZSH=$HOME/.oh-my-zsh
+#ZSH=$HOME/.oh-my-zsh
 
 source $HOME/.profile
 
@@ -36,8 +36,8 @@ DISABLE_LS_COLORS="true"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(brew git git-extras tmuxinator fasd)
-source $ZSH/oh-my-zsh.sh
+#plugins=(brew git git-extras tmuxinator fasd)
+#source $ZSH/oh-my-zsh.sh
 
 # Customize to your needs...
 
@@ -59,6 +59,38 @@ zstyle ':completion:*' menu select=8
 
 # expand directories in menu; C-_ undoes
 bindkey -M menuselect "^o" accept-and-infer-next-history
+
+######################################################################
+# History
+#
+# Cribbed from Oh-my-zsh's history plugin, which I can't seem to get
+# to load with zplug
+
+if [ -z "$HISTFILE" ]; then
+    HISTFILE=$HOME/.zsh_history
+fi
+
+HISTSIZE=10000
+SAVEHIST=10000
+
+# Show history
+case $HIST_STAMPS in
+  "mm/dd/yyyy") alias history='fc -fl 1' ;;
+  "dd.mm.yyyy") alias history='fc -El 1' ;;
+  "yyyy-mm-dd") alias history='fc -il 1' ;;
+  *) alias history='fc -l 1' ;;
+esac
+
+setopt append_history
+setopt extended_history
+setopt hist_expire_dups_first
+setopt hist_ignore_dups # ignore duplication command history list
+setopt hist_ignore_space
+setopt hist_verify
+setopt inc_append_history
+setopt share_history # share command history data
+setopt inc_append_history
+setopt share_history
 
 ######################################################################
 # Prompt, based on my bash prompt
@@ -277,7 +309,7 @@ bindkey '^t' transpose-chars
 
 # Find the file with fasd and open with emacs_d (daemon)
 alias fe='f -e emacs_d'
-unalias v # this is aliased to use fasd to open vim
+#unalias v # this is aliased to use fasd to open vim
 
 ##
 # ooc / rock
@@ -308,3 +340,16 @@ function gsdiff {
 
 ## Node
 export PATH="$PATH:./node_modules/.bin"
+
+######################################################################
+# Zplug, a zsh plug-in manager. Trying it instead of oh-my-zsh
+source /usr/local/opt/zplug/init.zsh
+zplug "plugins/brew",       from:oh-my-zsh
+zplug "b4b4r07/enhancd",    use:init.sh
+#zplug "plugins/fasd",       from:oh-my-zsh
+zplug "plugins/git",        from:oh-my-zsh
+zplug "plugins/git-extras", from:oh-my-zsh
+zplug "plugins/tmuxinator", from:oh-my-zsh
+
+zplug load --verbose
+
